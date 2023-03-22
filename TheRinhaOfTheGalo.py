@@ -31,7 +31,7 @@ class Player:
 class Game:
     def __init__(self):
         self.font = pygame.font.SysFont("Arial", 16)
-        self.player = Player(Pokemon("Galo de Arma", "Chumbo", 100, 20))
+        self.player = None
         self.opponent = Pokemon("Galo de Tenis", "Normal", 100, 20)
         hp_label = None
         if self.opponent.hp <= 0:
@@ -42,6 +42,42 @@ class Game:
         if len(hp_label) > 1:
             self.logistic = LogisticRegression(random_state=0)
             self.logistic.fit([[self.player.pokemon.hp, self.player.pokemon.attack]], [hp_label])
+
+    def select_pokemon(self):
+        selected_pokemon = None
+        while selected_pokemon is None:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    
+
+            screen.blit(background, (0, 0))
+            draw_text(screen, "Selecione seu Galo de Briga:", 50, 50)
+
+            # exibe as imagens dos pokemons disponíveis
+            
+            pokemon1 = Pokemon("Galo de Arma", "Arma", 100, 20)
+            draw_text(screen, f"{pokemon1.name} - {pokemon1.type} Tipo", 50, 180)
+            draw_pokemon(screen, pokemon1, 50, 100, 100)
+            pokemon2 = Pokemon("Galo de Calca", "Calca", 100, 20)
+            draw_pokemon(screen, pokemon2, 200, 100, 100)
+            pokemon3 = Pokemon("Galo de Tenis", "Tenis", 100, 20)
+            draw_pokemon(screen, pokemon3, 350, 100, 100)
+
+            # verifica se o jogador selecionou um pokemon
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_click = pygame.mouse.get_pressed()
+            if mouse_click[0]:
+                if 50 < mouse_pos[0] < 150 and 100 < mouse_pos[1] < 200:
+                    selected_pokemon = pokemon1
+                elif 200 < mouse_pos[0] < 300 and 100 < mouse_pos[1] < 200:
+                    selected_pokemon = pokemon2
+                elif 350 < mouse_pos[0] < 450 and 100 < mouse_pos[1] < 200:
+                    selected_pokemon = pokemon3
+
+            pygame.display.update()
+
+        self.player = Player(selected_pokemon)
 
 
     
@@ -104,6 +140,7 @@ def battle(player, opponent, logistic, selected_attack):
 
 def main():
     game = Game()
+    game.select_pokemon()
     running = True
     while running:
         for event in pygame.event.get():

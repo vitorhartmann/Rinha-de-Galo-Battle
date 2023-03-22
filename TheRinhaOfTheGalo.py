@@ -11,8 +11,8 @@ font = pygame.font.SysFont("Arial", 16)
 pygame.init()
 width, height = 640, 480
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Batalha Pokemon")
-background = pygame.image.load("background.png")
+pygame.display.set_caption("Rinha de Galo")
+background = pygame.image.load("PlanoDeFundo.png")
 
 
 class Pokemon:
@@ -20,7 +20,7 @@ class Pokemon:
         self.name = name
         self.type = type
         self.hp = hp
-        self.attacks = [Attack("Tackle", 10), Attack("Flame Thrower", 20)]
+        self.attacks = [Attack("Bater", 10), Attack("Bater mais Forte", 20)]
 
 
 class Player:
@@ -31,8 +31,8 @@ class Player:
 class Game:
     def __init__(self):
         self.font = pygame.font.SysFont("Arial", 16)
-        self.player = Player(Pokemon("Charmander", "Fire", 100, 20))
-        self.opponent = Pokemon("Bulbasaur", "Grass", 100, 20)
+        self.player = Player(Pokemon("Galo de Arma", "Chumbo", 100, 20))
+        self.opponent = Pokemon("Galo de Tenis", "Normal", 100, 20)
         hp_label = None
         if self.opponent.hp <= 0:
             hp_label = [1]  # player wins the battle
@@ -44,12 +44,7 @@ class Game:
             self.logistic.fit([[self.player.pokemon.hp, self.player.pokemon.attack]], [hp_label])
 
 
-    def __init__(self):
-        self.font = pygame.font.SysFont("Arial", 16)
-        self.player = Player(Pokemon("Charmander", "Fire", 100, 20))
-        self.opponent = Pokemon("Bulbasaur", "Grass", 100, 20)
-        self.logistic = None
-        self.selected_attack = None
+    
         
     def select_attack(self, index):
         self.selected_attack = self.player.pokemon.attacks[index]
@@ -69,16 +64,17 @@ def draw_text(screen, text, x, y):
     screen.blit(surface, (x, y))
 
     
-def draw_pokemon(screen, pokemon, x, y):
+def draw_pokemon(screen, pokemon, x, y, size):
     surface = pygame.image.load(f"{pokemon.name}.png")
+    surface = pygame.transform.scale(surface, (size, size))
     screen.blit(surface, (x, y))
 
 
 
 def update_screen(screen, player, opponent):
     screen.blit(background, (0, 0))
-    draw_pokemon(screen, player.pokemon, 50, 200)
-    draw_pokemon(screen, opponent, 450, 50)
+    draw_pokemon(screen, player.pokemon, 50, 200, 150)
+    draw_pokemon(screen, opponent, 450, 50, 150)
     draw_text(screen, f"{player.pokemon.name} - {player.pokemon.hp} HP", 50, 180)
     draw_text(screen, f"{opponent.name} - {opponent.hp} HP", 450, 30)
     pygame.display.update()

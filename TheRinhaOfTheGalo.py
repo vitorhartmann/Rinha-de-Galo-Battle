@@ -28,20 +28,24 @@ class Player:
         self.pokemon = pokemon
 
 
+class Opponent:
+    def __init__(self, player_pokemon):
+        self.types = {'Arma': 'Tenis', 'Calca': 'Arma', 'Tenis': 'Calca'}
+        self.pokemon = self.choose_pokemon(player_pokemon)
+
+    
+
+
 class Game:
     def __init__(self):
         self.font = pygame.font.SysFont("Arial", 16)
         self.player = None
-        self.opponent = Pokemon("Galo de Tenis", "Normal", 100, 20)
-        hp_label = None
-        if self.opponent.hp <= 0:
-            hp_label = [1]  # player wins the battle
-        else:
-            hp_label = [0]  # battle continues
-        self.logistic = None
-        if len(hp_label) > 1:
-            self.logistic = LogisticRegression(random_state=0)
-            self.logistic.fit([[self.player.pokemon.hp, self.player.pokemon.attack]], [hp_label])
+        # self.opponent = Pokemon("Galo de Tenis", "Normal", 100, 20)
+        self.opponent = None
+    
+        
+       
+        
 
     def select_pokemon(self):
         selected_pokemon = None
@@ -84,6 +88,17 @@ class Game:
 
         self.player = Player(selected_pokemon)
 
+       
+
+        if selected_pokemon == pokemon1:
+            self.opponent = Pokemon("Galo de Tenis", "Tenis", 100, 20)
+        elif selected_pokemon == pokemon2:
+            self.opponent = Pokemon("Galo de Arma", "Arma", 100, 20)
+        elif selected_pokemon == pokemon3:
+            self.opponent = Pokemon("Galo de Calca", "Calca", 100, 20)
+        else:
+            self.opponent = Pokemon("Galo de Arma", "Arma", 100, 20)
+    
 
     
         

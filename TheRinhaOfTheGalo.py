@@ -83,6 +83,8 @@ class Game:
             # Posição da Informação (Dica de Vantagem)
             draw_text(screen, dicadetipos, 290, 380)
 
+            
+
             # Quando clica com o mouse na posição das imagens dos galos, ele seleciona
             mouse_click = pygame.mouse.get_pressed()
             if mouse_click[0]:
@@ -92,6 +94,10 @@ class Game:
                     selected_pokemon = pokemon2
                 elif pokemon3_rect.collidepoint(mouse_pos):
                     selected_pokemon = pokemon3
+
+
+            
+            
 
             # Atualiza a tela
             pygame.display.update()
@@ -113,6 +119,27 @@ class Game:
         else:
             self.opponent = Pokemon(
                 "Galo de Arma", "Arma", 100, 20)
+            
+
+
+         # Pausa aleatória para o oponente escolher o pokemon
+
+        delay_time = (750)  # Delay Pra "animação" de escolha
+        draw_text(screen, "Oponente escolhendo.", 50, 570)
+        pygame.display.update()
+        pygame.time.delay(delay_time)
+
+        delay_time =  (750)  # Delay Pra "animação" de escolha
+        draw_text(screen, "Oponente escolhendo..", 50, 570)
+        pygame.display.update()
+        pygame.time.delay(delay_time)
+
+        delay_time = random.randint(750, 1500)  # Delay Pra "animação" de escolha
+        draw_text(screen, "Oponente escolhendo...", 50, 570)
+        pygame.display.update()
+        pygame.time.delay(delay_time)
+
+
 
     def select_attack(self, index):
         self.selected_attack = self.player.pokemon.attacks[index]

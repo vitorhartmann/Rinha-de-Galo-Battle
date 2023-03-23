@@ -12,7 +12,7 @@ pygame.init()
 width, height = 640, 480
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Rinha de Galo")
-background = pygame.image.load("PlanoDeFundoALT.png")
+background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
 
 
 class Pokemon:
@@ -28,24 +28,11 @@ class Player:
         self.pokemon = pokemon
 
 
-class Opponent:
-    def __init__(self, player_pokemon):
-        self.types = {'Arma': 'Tenis', 'Calca': 'Arma', 'Tenis': 'Calca'}
-        self.pokemon = self.choose_pokemon(player_pokemon)
-
-    
-
-
 class Game:
     def __init__(self):
         self.font = pygame.font.SysFont("Arial", 16)
         self.player = None
-        # self.opponent = Pokemon("Galo de Tenis", "Normal", 100, 20)
         self.opponent = None
-    
-        
-       
-        
 
     def select_pokemon(self):
         selected_pokemon = None
@@ -53,28 +40,37 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    
 
             screen.blit(background, (0, 0))
             draw_text(screen, "Selecione seu Galo de Briga:", 50, 50)
 
             # exibe as imagens dos pokemons disponíveis
-            
-            
+
             pokemon1 = Pokemon("Galo de Arma", "Arma", 100, 20)
-            draw_text(screen, f"{pokemon1.name} - Tipo: {pokemon1.type}", 40, 180)
-            draw_pokemon(screen, pokemon1, 50, 100, 100)
+            pokemon1_rect = draw_pokemon(screen, pokemon1, 50, 100, 100)
 
             pokemon2 = Pokemon("Galo de Calca", "Calca", 100, 20)
-            draw_text(screen, f"{pokemon2.name} - Tipo: {pokemon2.type}", 240, 180)
-            draw_pokemon(screen, pokemon2, 200, 100, 100)
+            pokemon2_rect = draw_pokemon(screen, pokemon2, 200, 100, 100)
 
             pokemon3 = Pokemon("Galo de Tenis", "Tenis", 100, 20)
-            draw_text(screen, f"{pokemon3.name} - Tipo: {pokemon3.type}", 440, 180)
-            draw_pokemon(screen, pokemon3, 350, 100, 100)
+            pokemon3_rect = draw_pokemon(screen, pokemon3, 350, 100, 100)
 
             # verifica se o jogador selecionou um pokemon
             mouse_pos = pygame.mouse.get_pos()
+
+            # verifica se o mouse está em cima de um Pokémon e exibe o nome e tipo correspondente
+            if pokemon1_rect.collidepoint(mouse_pos):
+                draw_text(
+                    screen, f"{pokemon1.name} - Tipo: {pokemon1.type}", mouse_pos[0], mouse_pos[1] - 20)
+
+            if pokemon2_rect.collidepoint(mouse_pos):
+                draw_text(
+                    screen, f"{pokemon2.name} - Tipo: {pokemon2.type}", mouse_pos[0], mouse_pos[1] - 20)
+
+            if pokemon3_rect.collidepoint(mouse_pos):
+                draw_text(
+                    screen, f"{pokemon3.name} - Tipo: {pokemon3.type}", mouse_pos[0], mouse_pos[1] - 20)
+
             mouse_click = pygame.mouse.get_pressed()
             if mouse_click[0]:
                 if 50 < mouse_pos[0] < 150 and 100 < mouse_pos[1] < 200:
@@ -88,8 +84,6 @@ class Game:
 
         self.player = Player(selected_pokemon)
 
-       
-
         if selected_pokemon == pokemon1:
             self.opponent = Pokemon("Galo de Tenis", "Tenis", 100, 20)
         elif selected_pokemon == pokemon2:
@@ -98,10 +92,7 @@ class Game:
             self.opponent = Pokemon("Galo de Calca", "Calca", 100, 20)
         else:
             self.opponent = Pokemon("Galo de Arma", "Arma", 100, 20)
-    
 
-    
-        
     def select_attack(self, index):
         self.selected_attack = self.player.pokemon.attacks[index]
 
@@ -112,31 +103,26 @@ class Attack:
         self.power = power
 
 
-
-
-
 def draw_text(screen, text, x, y):
     surface = font.render(text, True, (255, 255, 255))
     screen.blit(surface, (x, y))
 
-    
-def draw_pokemon(screen, pokemon, x, y, size):
-    surface = pygame.image.load(f"{pokemon.name}.png")
-    surface = pygame.transform.scale(surface, (size, size))
-    screen.blit(surface, (x, y))
 
+def draw_pokemon(screen, pokemon, x, y, size):
+    image = pygame.image.load(f"Imagens/{pokemon.name}.png")
+    image = pygame.transform.scale(image, (size, size))
+    screen.blit(image, (x, y))
+    return pygame.Rect(x, y, image.get_width(), image.get_height())
 
 
 def update_screen(screen, player, opponent):
     screen.blit(background, (0, 0))
     draw_pokemon(screen, player.pokemon, 50, 200, 150)
     draw_pokemon(screen, opponent, 450, 50, 150)
-    draw_text(screen, f"{player.pokemon.name} - {player.pokemon.hp} HP", 50, 180)
+    draw_text(
+        screen, f"{player.pokemon.name} - {player.pokemon.hp} HP", 50, 180)
     draw_text(screen, f"{opponent.name} - {opponent.hp} HP", 450, 30)
     pygame.display.update()
-
-
-
 
 
 def battle(player, opponent, logistic, selected_attack):
@@ -173,11 +159,11 @@ def main():
                     game.select_attack(1)
                 elif event.key == pygame.K_SPACE:
                     if game.selected_attack is not None:
-                        battle(game.player, game.opponent, game.logistic, game.selected_attack)
+                        battle(game.player, game.opponent,
+                               game.logistic, game.selected_attack)
         update_screen(screen, game.player, game.opponent)
     pygame.quit()
 
 
 if __name__ == "__main__":
     main()
-

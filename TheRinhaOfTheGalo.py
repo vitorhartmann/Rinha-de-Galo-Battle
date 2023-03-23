@@ -12,7 +12,7 @@ pygame.init()
 width, height = 640, 480
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Rinha de Galo")
-background = pygame.image.load("PlanoDeFundo.png")
+background = pygame.image.load("PlanoDeFundoALT.png")
 
 
 class Pokemon:
@@ -56,12 +56,17 @@ class Game:
 
             # exibe as imagens dos pokemons disponíveis
             
+            
             pokemon1 = Pokemon("Galo de Arma", "Arma", 100, 20)
-            draw_text(screen, f"{pokemon1.name} - {pokemon1.type} Tipo", 50, 180)
+            draw_text(screen, f"{pokemon1.name} - Tipo: {pokemon1.type}", 40, 180)
             draw_pokemon(screen, pokemon1, 50, 100, 100)
+
             pokemon2 = Pokemon("Galo de Calca", "Calca", 100, 20)
+            draw_text(screen, f"{pokemon2.name} - Tipo: {pokemon2.type}", 240, 180)
             draw_pokemon(screen, pokemon2, 200, 100, 100)
+
             pokemon3 = Pokemon("Galo de Tenis", "Tenis", 100, 20)
+            draw_text(screen, f"{pokemon3.name} - Tipo: {pokemon3.type}", 440, 180)
             draw_pokemon(screen, pokemon3, 350, 100, 100)
 
             # verifica se o jogador selecionou um pokemon

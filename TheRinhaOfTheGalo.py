@@ -1,6 +1,5 @@
 from tkinter import font
 import pygame
-import pygame.font
 import random
 
 pygame.font.init()
@@ -14,7 +13,7 @@ pygame.display.set_caption("Rinha de Galo")
 background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
 
 
-class Pokemon:
+class Galo:
     def __init__(self, name, type, hp, attack):
         self.name = name
         self.type = type
@@ -23,8 +22,8 @@ class Pokemon:
 
 
 class Player:
-    def __init__(self, pokemon):
-        self.pokemon = pokemon
+    def __init__(self, galo):
+        self.galo = galo
 
 
 class Game:
@@ -32,9 +31,10 @@ class Game:
         self.player = None
         self.opponent = None
 
-    def select_pokemon(self):
-        selected_pokemon = None
-        while selected_pokemon is None:
+
+    def select_galo(self):
+        selected_galo = None
+        while selected_galo is None:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -42,43 +42,46 @@ class Game:
             screen.blit(background, (0, 0))
             draw_text(screen, "Selecione seu Galo de Briga:", 50, 50)
 
-            # exibe as imagens dos pokemons disponíveis
+            # exibe as imagens dos galos disponíveis
 
-            pokemon1 = Pokemon("Galo de Arma", "Arma", 100, 20)
-            pokemon1_rect = draw_pokemon(screen, pokemon1, 150, 100, 100)
+            galo1 = Galo("Galo de Arma", "Arma", 100, 20)
+            galo1_rect = draw_galo(screen, galo1, 150, 100, 100)
 
-            pokemon2 = Pokemon("Galo de Calca", "Calca", 100, 20)
-            pokemon2_rect = draw_pokemon(screen, pokemon2, 300, 100, 100)
+            galo2 = Galo("Galo de Calca", "Calca", 100, 20)
+            galo2_rect = draw_galo(screen, galo2, 300, 100, 100)
 
-            pokemon3 = Pokemon("Galo de Tenis", "Tenis", 100, 20)
-            pokemon3_rect = draw_pokemon(screen, pokemon3, 450, 100, 100)
+            galo3 = Galo("Galo de Tenis", "Tenis", 100, 20)
+            galo3_rect = draw_galo(screen, galo3, 450, 100, 100)
 
             # Verifica a posição do mouse
             mouse_pos = pygame.mouse.get_pos()
 
-            # Verifica se está em cima de um pokemon, e exibe as informações
-            if pokemon1_rect.collidepoint(mouse_pos):
-                pokemon_info_text = f"{pokemon1.name}"
-                tipopokemon = f"Tipo:{pokemon1.type}"
-                dicadetipos = f"Ótimo contra tipo {pokemon2.type} "
-            elif pokemon2_rect.collidepoint(mouse_pos):
-                pokemon_info_text = f"{pokemon2.name}"
-                tipopokemon = f"Tipo:{pokemon2.type}"
-                dicadetipos = f"Ótimo contra tipo {pokemon3.type} "
-            elif pokemon3_rect.collidepoint(mouse_pos):
-                pokemon_info_text = f"{pokemon3.name}"
-                tipopokemon = f"Tipo:{pokemon3.type}"
-                dicadetipos = f"Ótimo contra tipo {pokemon1.type} "
+            # Verifica se está em cima de um galo, e exibe as informações
+            if galo1_rect.collidepoint(mouse_pos):
+                galo_info_text = f"{galo1.name}"
+                tipogalo = f"Tipo:{galo1.type}"
+                dicadetipos = f"Ótimo contra tipo {galo2.type} "
+                
+            elif galo2_rect.collidepoint(mouse_pos):
+                galo_info_text = f"{galo2.name}"
+                tipogalo = f"Tipo:{galo2.type}"
+                dicadetipos = f"Ótimo contra tipo {galo3.type} "
+
+            elif galo3_rect.collidepoint(mouse_pos):
+                galo_info_text = f"{galo3.name}"
+                tipogalo = f"Tipo:{galo3.type}"
+                dicadetipos = f"Ótimo contra tipo {galo1.type} "
+
             else:
-                pokemon_info_text = ""
-                tipopokemon = ""
+                galo_info_text = ""
+                tipogalo = ""
                 dicadetipos = ""
 
             # Posição da Informação (Nome)
-            draw_text(screen, pokemon_info_text, 310, 330)
+            draw_text(screen, galo_info_text, 310, 330)
 
             # Posição da Informação (Tipo)
-            draw_text(screen, tipopokemon, 320, 350)
+            draw_text(screen, tipogalo, 320, 350)
 
             # Posição da Informação (Dica de Vantagem)
             draw_text(screen, dicadetipos, 290, 380)
@@ -88,12 +91,12 @@ class Game:
             # Quando clica com o mouse na posição das imagens dos galos, ele seleciona
             mouse_click = pygame.mouse.get_pressed()
             if mouse_click[0]:
-                if pokemon1_rect.collidepoint(mouse_pos):
-                    selected_pokemon = pokemon1
-                elif pokemon2_rect.collidepoint(mouse_pos):
-                    selected_pokemon = pokemon2
-                elif pokemon3_rect.collidepoint(mouse_pos):
-                    selected_pokemon = pokemon3
+                if galo1_rect.collidepoint(mouse_pos):
+                    selected_galo = galo1
+                elif galo2_rect.collidepoint(mouse_pos):
+                    selected_galo = galo2
+                elif galo3_rect.collidepoint(mouse_pos):
+                    selected_galo = galo3
 
 
             
@@ -102,47 +105,47 @@ class Game:
             # Atualiza a tela
             pygame.display.update()
 
-        # Define o pokemon do jogador pelo escolhido
-        self.player = Player(selected_pokemon)
+        # Define o galo do jogador pelo escolhido
+        self.player = Player(selected_galo)
 
         # Verificação da "IA", que sempre escolhe o galo com melhor vantagem contra o escolhido do jogador
-        if selected_pokemon == pokemon1:
+        if selected_galo == galo1:
 
-            self.opponent = Pokemon(
+            self.opponent = Galo(
                 "Galo de Tenis", "Tênis", 100, 20)
-        elif selected_pokemon == pokemon2:
-            self.opponent = Pokemon(
+        elif selected_galo == galo2:
+            self.opponent = Galo(
                 "Galo de Arma", "Arma", 100, 20)
-        elif selected_pokemon == pokemon3:
-            self.opponent = Pokemon(
+        elif selected_galo == galo3:
+            self.opponent = Galo(
                 "Galo de Calca", "Calça", 100, 20)
         else:
-            self.opponent = Pokemon(
+            self.opponent = Galo(
                 "Galo de Arma", "Arma", 100, 20)
             
 
 
-         # Pausa aleatória para o oponente escolher o pokemon
+         # Pausa aleatória para o oponente escolher o galo
 
-        delay_time = (750)  # Delay Pra "animação" de escolha
-        draw_text(screen, "Oponente escolhendo.", 50, 570)
+        delay_time = random.randint(750, 1500)  # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
+        draw_text(screen, "Oponente escolhendo.", 300, 570)  #Posição de onde vai aparecer, X E Y
         pygame.display.update()
         pygame.time.delay(delay_time)
 
-        delay_time =  (750)  # Delay Pra "animação" de escolha
-        draw_text(screen, "Oponente escolhendo..", 50, 570)
+        delay_time = random.randint(750, 1500)  # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
+        draw_text(screen, "Oponente escolhendo..", 300, 570)   #Posição de onde vai aparecer, X E Y
         pygame.display.update()
         pygame.time.delay(delay_time)
 
-        delay_time = random.randint(750, 1500)  # Delay Pra "animação" de escolha
-        draw_text(screen, "Oponente escolhendo...", 50, 570)
+        delay_time = random.randint(750, 1500)  # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
+        draw_text(screen, "Oponente escolhendo...", 300, 570)  #Posição de onde vai aparecer, X E Y
         pygame.display.update()
         pygame.time.delay(delay_time)
 
 
 
     def select_attack(self, index):
-        self.selected_attack = self.player.pokemon.attacks[index]
+        self.selected_attack = self.player.galo.attacks[index]
 
 
 class Attack:
@@ -150,7 +153,7 @@ class Attack:
         self.name = name
         self.power = power
 
-
+# Renderizando o texto na tela, conforme identificado anteriormente (X e Y), nas variaveis
 def draw_text(screen, text, x, y):
     surface = font.render(text, True, (255, 255, 255))
     screen.blit(surface, (x, y))
@@ -158,8 +161,8 @@ def draw_text(screen, text, x, y):
 # Definição de onde renderizar a foto do galo do jogador, e de onde pegar a imagem
 
 
-def draw_pokemon(screen, pokemon, x, y, size):
-    image = pygame.image.load(f"Imagens/{pokemon.name}.png")
+def draw_galo(screen, galo, x, y, size):
+    image = pygame.image.load(f"Imagens/{galo.name}.png")
     image = pygame.transform.scale(image, (size, size))
     screen.blit(image, (x, y))
     return pygame.Rect(x, y, image.get_width(), image.get_height())
@@ -167,8 +170,8 @@ def draw_pokemon(screen, pokemon, x, y, size):
 # Definição de onde renderizar a foto do galo do oponente, e de onde pegar a imagem
 
 
-def draw_pokemonoponnent(screen, pokemon, x, y, size):
-    image = pygame.image.load(f"Imagens/{pokemon.name} Oponente.png")
+def draw_galooponnent(screen, galo, x, y, size):
+    image = pygame.image.load(f"Imagens/{galo.name} Oponente.png")
     image = pygame.transform.scale(image, (size, size))
     screen.blit(image, (x, y))
     return pygame.Rect(x, y, image.get_width(), image.get_height())
@@ -176,10 +179,10 @@ def draw_pokemonoponnent(screen, pokemon, x, y, size):
 
 def update_screen(screen, player, opponent):
     screen.blit(background, (0, 0))
-    draw_pokemon(screen, player.pokemon, 50, 200, 150)
-    draw_pokemonoponnent(screen, opponent, 450, 50, 150)
+    draw_galo(screen, player.galo, 50, 200, 150)
+    draw_galooponnent(screen, opponent, 450, 50, 150)
     draw_text(
-        screen, f"{player.pokemon.name} - {player.pokemon.hp} HP", 50, 180)
+        screen, f"{player.galo.name} - {player.galo.hp} HP", 50, 180)
     draw_text(screen, f"{opponent.name} - {opponent.hp} HP", 450, 30)
     pygame.display.update()
 
@@ -189,16 +192,16 @@ def update_screen(screen, player, opponent):
 def battle(player, opponent, selected_attack):
     player_attack = selected_attack.power
     opponent_attack = random.randint(1, opponent.attack)
-    player.pokemon.hp -= opponent_attack
+    player.galo.hp -= opponent_attack
     opponent.hp -= player_attack
     if opponent.hp <= 0:
         draw_text(screen, "Você venceu!", 50, 50)
-    elif player.pokemon.hp <= 0:
+    elif player.galo.hp <= 0:
         draw_text(screen, "Você perdeu!", 50, 50)
     else:
         opponent_attack = random.choice(opponent.attacks)
-        player.pokemon.hp -= opponent_attack.power
-        if player.pokemon.hp <= 0:
+        player.galo.hp -= opponent_attack.power
+        if player.galo.hp <= 0:
             draw_text(screen, "Você perdeu!", 50, 50)
         else:
             draw_text(screen, "A batalha continua!", 50, 50)
@@ -207,7 +210,7 @@ def battle(player, opponent, selected_attack):
 
 def main():
     game = Game()
-    game.select_pokemon()
+    game.select_galo()
     running = True
     while running:
         for event in pygame.event.get():

@@ -9,7 +9,7 @@ font = pygame.font.SysFont("Arial", 16)
 
 
 pygame.init()
-width, height = 640, 480
+width, height = 720, 640
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Rinha de Galo")
 background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
@@ -30,7 +30,7 @@ class Player:
 
 class Game:
     def __init__(self):
-        self.font = pygame.font.SysFont("Arial", 16)
+        # self.font = pygame.font.SysFont("Arial", 16)
         self.player = None
         self.opponent = None
 
@@ -47,37 +47,50 @@ class Game:
             # exibe as imagens dos pokemons disponíveis
 
             pokemon1 = Pokemon("Galo de Arma", "Arma", 100, 20)
-            pokemon1_rect = draw_pokemon(screen, pokemon1, 50, 100, 100)
+            pokemon1_rect = draw_pokemon(screen, pokemon1, 150, 100, 100)
 
             pokemon2 = Pokemon("Galo de Calca", "Calca", 100, 20)
-            pokemon2_rect = draw_pokemon(screen, pokemon2, 200, 100, 100)
+            pokemon2_rect = draw_pokemon(screen, pokemon2, 300, 100, 100)
 
             pokemon3 = Pokemon("Galo de Tenis", "Tenis", 100, 20)
-            pokemon3_rect = draw_pokemon(screen, pokemon3, 350, 100, 100)
+            pokemon3_rect = draw_pokemon(screen, pokemon3, 450, 100, 100)
 
             # verifica se o jogador selecionou um pokemon
             mouse_pos = pygame.mouse.get_pos()
 
+            pokemon_info_rect = pygame.Rect(150, 300, 300, 50)
+
             # verifica se o mouse está em cima de um Pokémon e exibe o nome e tipo correspondente
             if pokemon1_rect.collidepoint(mouse_pos):
-                draw_text(
-                    screen, f"{pokemon1.name} - Tipo: {pokemon1.type}", mouse_pos[0], mouse_pos[1] - 20)
+                pokemon_info_text = f"{pokemon1.name}"
+                tipopokemon = f"Tipo:{pokemon1.type}"
+                dicadetipos = f"Ótimo contra tipo {pokemon2.type} "
+            elif pokemon2_rect.collidepoint(mouse_pos):
+                pokemon_info_text = f"{pokemon2.name}"
+                tipopokemon = f"Tipo:{pokemon2.type}"
+                dicadetipos = f"Ótimo contra tipo {pokemon3.type} "
+            elif pokemon3_rect.collidepoint(mouse_pos):
+                pokemon_info_text = f"{pokemon3.name}"
+                tipopokemon = f"Tipo:{pokemon3.type}"
+                dicadetipos = f"Ótimo contra tipo {pokemon1.type} "
+            else:
+                pokemon_info_text = ""
+                tipopokemon = ""
+                dicadetipos = ""
 
-            if pokemon2_rect.collidepoint(mouse_pos):
-                draw_text(
-                    screen, f"{pokemon2.name} - Tipo: {pokemon2.type}", mouse_pos[0], mouse_pos[1] - 20)
+            draw_text(screen, pokemon_info_text, 310, 330)
 
-            if pokemon3_rect.collidepoint(mouse_pos):
-                draw_text(
-                    screen, f"{pokemon3.name} - Tipo: {pokemon3.type}", mouse_pos[0], mouse_pos[1] - 20)
+            draw_text(screen, tipopokemon, 320, 350)
+
+            draw_text(screen, dicadetipos, 290, 380)
 
             mouse_click = pygame.mouse.get_pressed()
             if mouse_click[0]:
-                if 50 < mouse_pos[0] < 150 and 100 < mouse_pos[1] < 200:
+                if pokemon1_rect.collidepoint(mouse_pos):
                     selected_pokemon = pokemon1
-                elif 200 < mouse_pos[0] < 300 and 100 < mouse_pos[1] < 200:
+                elif pokemon2_rect.collidepoint(mouse_pos):
                     selected_pokemon = pokemon2
-                elif 350 < mouse_pos[0] < 450 and 100 < mouse_pos[1] < 200:
+                elif pokemon3_rect.collidepoint(mouse_pos):
                     selected_pokemon = pokemon3
 
             pygame.display.update()

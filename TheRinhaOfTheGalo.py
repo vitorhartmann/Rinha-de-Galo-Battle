@@ -13,12 +13,19 @@ pygame.display.set_caption("Rinha de Galo")
 background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
 
 
+
+
+
+
 class Galo:
     def __init__(self, name, type, hp, attack):
         self.name = name
         self.type = type
         self.hp = hp
-        self.attacks = [Attack("Bater", 10), Attack("Bater mais Forte", 20)]
+
+    def attack(self, target, attack_index):
+        attack = self.attacks[attack_index]
+        target.hp -= attack.power
 
 
 class Player:
@@ -30,6 +37,15 @@ class Game:
     def __init__(self):
         self.player = None
         self.opponent = None
+        self.player_turn = True
+        self.attack_selected = False
+        self.selected_attack = None
+
+
+
+
+
+
 
 
     def select_galo(self):
@@ -88,7 +104,7 @@ class Game:
 
             
 
-            # Quando clica com o mouse na posição das imagens dos galos, ele seleciona
+            # Quando clica com o mouse na posição das imagens dos galos, ele seleciona o galo
             mouse_click = pygame.mouse.get_pressed()
             if mouse_click[0]:
                 if galo1_rect.collidepoint(mouse_pos):
@@ -142,16 +158,16 @@ class Game:
         pygame.display.update()
         pygame.time.delay(delay_time)
 
+   
+
+           
+
+        
 
 
-    def select_attack(self, index):
-        self.selected_attack = self.player.galo.attacks[index]
+    
 
 
-class Attack:
-    def __init__(self, name, power):
-        self.name = name
-        self.power = power
 
 # Renderizando o texto na tela, conforme identificado anteriormente (X e Y), nas variaveis
 def draw_text(screen, text, x, y):
@@ -189,23 +205,7 @@ def update_screen(screen, player, opponent):
 # BATALHA - A SER PROGRAMADA AINDA
 
 
-def battle(player, opponent, selected_attack):
-    player_attack = selected_attack.power
-    opponent_attack = random.randint(1, opponent.attack)
-    player.galo.hp -= opponent_attack
-    opponent.hp -= player_attack
-    if opponent.hp <= 0:
-        draw_text(screen, "Você venceu!", 50, 50)
-    elif player.galo.hp <= 0:
-        draw_text(screen, "Você perdeu!", 50, 50)
-    else:
-        opponent_attack = random.choice(opponent.attacks)
-        player.galo.hp -= opponent_attack.power
-        if player.galo.hp <= 0:
-            draw_text(screen, "Você perdeu!", 50, 50)
-        else:
-            draw_text(screen, "A batalha continua!", 50, 50)
-            update_screen(screen, player, opponent)
+
 
 
 def main():
@@ -223,7 +223,7 @@ def main():
                     game.select_attack(1)
                 elif event.key == pygame.K_SPACE:
                     if game.selected_attack is not None:
-                        battle(game.player, game.opponent,
+                        (game.player, game.opponent,
                                game.logistic, game.selected_attack)
         update_screen(screen, game.player, game.opponent)
     pygame.quit()

@@ -13,10 +13,6 @@ pygame.display.set_caption("Rinha de Galo")
 background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
 
 
-
-
-
-
 class Galo:
     def __init__(self, name, type, hp, attack):
         self.name = name
@@ -40,13 +36,6 @@ class Game:
         self.player_turn = True
         self.attack_selected = False
         self.selected_attack = None
-
-
-
-
-
-
-
 
     def select_galo(self):
         selected_galo = None
@@ -77,7 +66,7 @@ class Game:
                 galo_info_text = f"{galo1.name}"
                 tipogalo = f"Tipo:{galo1.type}"
                 dicadetipos = f"Ótimo contra tipo {galo2.type} "
-                
+
             elif galo2_rect.collidepoint(mouse_pos):
                 galo_info_text = f"{galo2.name}"
                 tipogalo = f"Tipo:{galo2.type}"
@@ -102,8 +91,6 @@ class Game:
             # Posição da Informação (Dica de Vantagem)
             draw_text(screen, dicadetipos, 290, 380)
 
-            
-
             # Quando clica com o mouse na posição das imagens dos galos, ele seleciona o galo
             mouse_click = pygame.mouse.get_pressed()
             if mouse_click[0]:
@@ -113,10 +100,6 @@ class Game:
                     selected_galo = galo2
                 elif galo3_rect.collidepoint(mouse_pos):
                     selected_galo = galo3
-
-
-            
-            
 
             # Atualiza a tela
             pygame.display.update()
@@ -138,35 +121,29 @@ class Game:
         else:
             self.opponent = Galo(
                 "Galo de Arma", "Arma", 100, 20)
-            
-
 
          # Pausa aleatória para o oponente escolher o galo
 
-        delay_time = random.randint(750, 1500)  # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
-        draw_text(screen, "Oponente escolhendo.", 300, 570)  #Posição de onde vai aparecer, X E Y
+        # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
+        delay_time = random.randint(750, 1500)
+        # Posição de onde vai aparecer, X E Y
+        draw_text(screen, "Oponente escolhendo.", 300, 570)
         pygame.display.update()
         pygame.time.delay(delay_time)
 
-        delay_time = random.randint(750, 1500)  # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
-        draw_text(screen, "Oponente escolhendo..", 300, 570)   #Posição de onde vai aparecer, X E Y
+        # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
+        delay_time = random.randint(750, 1500)
+        # Posição de onde vai aparecer, X E Y
+        draw_text(screen, "Oponente escolhendo..", 300, 570)
         pygame.display.update()
         pygame.time.delay(delay_time)
 
-        delay_time = random.randint(750, 1500)  # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
-        draw_text(screen, "Oponente escolhendo...", 300, 570)  #Posição de onde vai aparecer, X E Y
+        # Delay Pra "animação" de escolha, entre 0,75 segundos e 1,5 segundos
+        delay_time = random.randint(750, 1500)
+        # Posição de onde vai aparecer, X E Y
+        draw_text(screen, "Oponente escolhendo...", 300, 570)
         pygame.display.update()
         pygame.time.delay(delay_time)
-
-   
-
-           
-
-        
-
-
-    
-
 
 
 # Renderizando o texto na tela, conforme identificado anteriormente (X e Y), nas variaveis
@@ -205,9 +182,6 @@ def update_screen(screen, player, opponent):
 # BATALHA - A SER PROGRAMADA AINDA
 
 
-
-
-
 def main():
     game = Game()
     game.select_galo()
@@ -224,7 +198,7 @@ def main():
                 elif event.key == pygame.K_SPACE:
                     if game.selected_attack is not None:
                         (game.player, game.opponent,
-                               game.logistic, game.selected_attack)
+                         game.logistic, game.selected_attack)
         update_screen(screen, game.player, game.opponent)
     pygame.quit()
 

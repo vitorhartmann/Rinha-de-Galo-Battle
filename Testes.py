@@ -2,6 +2,7 @@ from tkinter import font
 import pygame
 import random
 
+
 pygame.font.init()
 font = pygame.font.SysFont("Arial", 16)
 
@@ -27,23 +28,23 @@ class Galo:
         if name == "Galo de Arma":
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
-                {"name": "Tiro - 20", "power": 15},
-                {"name": "SEM DANO - 3", "power": 0},
-                {"name": "SEM DANO - 4", "power": 0}
+                {"name": "Tiro - 15", "power": 15},
+                {"name": "Especial da Arma", "power": 0},
+                {"name": "Aumentar ataque", "power": 0}
             ]
         elif name == "Galo de Calca":
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
-                {"name": "Calçada - 20", "power": 15},
-                {"name": "SEM DANO - XX", "power": 0},
-                {"name": "SEM DANO - XX", "power": 0}
+                {"name": "Calçada - 15", "power": 15},
+                {"name": "Especial da Calça", "power": 0},
+                {"name": "Aumentar ataque", "power": 0}
             ]
         elif name == "Galo de Tenis":
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
-                {"name": "Chute - 20", "power": 15},
-                {"name": "SEM DANO - XX", "power": 0},
-                {"name": "SEM DANO - XX", "power": 0}
+                {"name": "Chute - 15", "power": 15},
+                {"name": "Especial do Tenis", "power": 0},
+                {"name": "Aumentar ataque", "power": 0}
             ]
 
 

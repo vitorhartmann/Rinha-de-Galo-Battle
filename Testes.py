@@ -29,7 +29,7 @@ class Galo:
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
                 {"name": "Tiro - 15", "power": 15},
-                {"name": "Especial da Arma", "power": 0},
+                {"name": "Especial da Arma - 90", "power": 90},
                 {"name": "Aumentar ataque", "power": 0}
             ]
         elif name == "Galo de Calca":
@@ -89,6 +89,7 @@ def update_health_bars(player_galo, opponent_galo):
     player_galo_hp = player_galo.hp
     opponent_galo_hp = opponent_galo.hp
     return player_galo_hp, opponent_galo_hp
+
 
 
 class Player:
@@ -179,6 +180,12 @@ class Game:
                     opponent_galo = g
 
         return Player(opponent_galo)
+    
+    def draw_text_centered(self, screen, text):
+        surface = font.render(text, True, (255, 255, 255))
+        x = (screen.get_width() - surface.get_width()) // 10
+        y = (screen.get_height() - surface.get_height()) // 10
+        screen.blit(surface, (x, y))
 
     def select_attack(self):
         selected_attack = None
@@ -215,6 +222,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+                    
 
             screen.blit(background, (0, 0))
 
@@ -257,30 +265,35 @@ class Game:
                 draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)
                 pygame.display.update()
+                
 
                 pygame.time.delay(1500)  # adiciona um delay de 500 ms
                 self.player_turn = True
 
-            # atualiza as barras de vida
+                   # atualiza as barras de vida
             player_galo_hp, opponent_galo_hp = update_health_bars(
                 self.player.galo, self.opponent.galo)
             self.player.galo.hp = player_galo_hp
             self.opponent.galo.hp = opponent_galo_hp
+            pygame.display.update()
 
-            # verifica se o jogo acabou
+            
+
+             # verifica se o jogo acabou
             if self.player.galo.hp <= 0:
-                draw_text(screen, "Você perdeu!", 50, 400)
+                self.draw_text_centered(screen, "Você perdeu!")
                 pygame.display.update()
-                pygame.time.wait(2000)
-                break
+                pygame.time.wait(10000)
+                return
             elif self.opponent.galo.hp <= 0:
-                draw_text(screen, "Você ganhou!", 50, 400)
+                self.draw_text_centered(screen, "Você ganhou!")
                 pygame.display.update()
-                pygame.time.wait(2000)
-                break
+                pygame.time.wait(10000)
+                return
 
             pygame.display.update()
             clock.tick(30)
+            
 
 
 def main():
@@ -292,6 +305,7 @@ def main():
     while True:
         game.select_attack()
         game.fight()
+        
 
 
 if __name__ == "__main__":

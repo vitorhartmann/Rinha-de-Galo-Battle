@@ -90,6 +90,12 @@ def update_health_bars(player_galo, opponent_galo):
     opponent_galo_hp = opponent_galo.hp
     return player_galo_hp, opponent_galo_hp
 
+def draw_text_centered(screen, text):
+            surface = font.render(text, True, (255, 255, 255))
+            x = (screen.get_width() - surface.get_width()) // 2
+            y = (screen.get_height() - surface.get_height()) // 2
+            screen.blit(surface, (x, y))
+
 
 
 class Player:
@@ -222,11 +228,6 @@ class Game:
     def fight(self):
         clock = pygame.time.Clock()
 
-        def draw_text_centered(screen, text):
-            surface = font.render(text, True, (255, 255, 255))
-            x = (screen.get_width() - surface.get_width()) // 10
-            y = (screen.get_height() - surface.get_height()) // 10
-            screen.blit(surface, (x, y))
 
         while True:
             for event in pygame.event.get():
@@ -284,17 +285,14 @@ class Game:
             self.player.galo.hp = player_galo_hp
             self.opponent.galo.hp = opponent_galo_hp
             pygame.display.update()
+            
 
             # verifica se o jogo acabou
             if self.player.galo.hp <= 0:
-                draw_text_centered(screen, "Você perdeu!")
                 pygame.display.update()
-                pygame.time.wait(10000)
                 return
             elif self.opponent.galo.hp <= 0:
-                draw_text_centered(screen, "Você ganhou!")
                 pygame.display.update()
-                pygame.time.wait(10000)
                 return
 
 
@@ -309,10 +307,29 @@ def main():
     game.player = game.select_galo()
     game.opponent = game.select_opponent()
 
+    # Loop principal do jogo
     while True:
+        # Limpa a tela
+        screen.fill((0, 0, 0))
+
+        # Verifica se o jogador ou o oponente zerou a vida
+        if game.player.galo.hp <= 0:
+            draw_text_centered(screen, "Você perdeu!")
+            pygame.display.update()
+            pygame.time.wait(10000)
+            break
+        elif game.opponent.galo.hp <= 0:
+            draw_text_centered(screen, "Você ganhou!")
+            pygame.display.update()
+            pygame.time.wait(5000)
+            break
+
+        # Seleciona o ataque e inicia a luta
         game.select_attack()
         game.fight()
-        
+
+    pygame.quit()
+
 
 
 if __name__ == "__main__":

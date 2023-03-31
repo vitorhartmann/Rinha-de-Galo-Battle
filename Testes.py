@@ -133,22 +133,31 @@ class Game:
                 draw_text(screen, galo1.name, 150, 210)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo1
-                    pygame.time.delay(500)  # adiciona um delay de 500 ms
+                    pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo2_rect.collidepoint(mouse_pos):
                 draw_text(screen, galo2.name, 300, 210)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo2
-                    pygame.time.delay(500)  # adiciona um delay de 500 ms
+                    pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo3_rect.collidepoint(mouse_pos):
                 draw_text(screen, galo3.name, 450, 210)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo3
-                    pygame.time.delay(500)  # adiciona um delay de 500 ms
+                    pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             pygame.display.update()
-
+        draw_text(screen, "Oponente Escolhendo.", 200, 400)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        draw_text(screen, "Oponente Escolhendo..", 200, 400)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        draw_text(screen, "Oponente Escolhendo...", 200, 400)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        
         return Player(selected_galo)
 
     def select_opponent(self):
@@ -181,11 +190,6 @@ class Game:
 
         return Player(opponent_galo)
     
-    def draw_text_centered(self, screen, text):
-        surface = font.render(text, True, (255, 255, 255))
-        x = (screen.get_width() - surface.get_width()) // 10
-        y = (screen.get_height() - surface.get_height()) // 10
-        screen.blit(surface, (x, y))
 
     def select_attack(self):
         selected_attack = None
@@ -193,7 +197,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-
+                
             screen.blit(background, (0, 0))
             draw_text(screen, f"{self.player.galo.name} ataca:", 50, 50)
             draw_galo(screen, self.player.galo, 50, 320, 200)
@@ -218,11 +222,16 @@ class Game:
     def fight(self):
         clock = pygame.time.Clock()
 
+        def draw_text_centered(screen, text):
+            surface = font.render(text, True, (255, 255, 255))
+            x = (screen.get_width() - surface.get_width()) // 10
+            y = (screen.get_height() - surface.get_height()) // 10
+            screen.blit(surface, (x, y))
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    
 
             screen.blit(background, (0, 0))
 
@@ -265,35 +274,33 @@ class Game:
                 draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)
                 pygame.display.update()
-                
 
                 pygame.time.delay(1500)  # adiciona um delay de 500 ms
                 self.player_turn = True
 
-                   # atualiza as barras de vida
+            # atualiza as barras de vida
             player_galo_hp, opponent_galo_hp = update_health_bars(
                 self.player.galo, self.opponent.galo)
             self.player.galo.hp = player_galo_hp
             self.opponent.galo.hp = opponent_galo_hp
             pygame.display.update()
 
-            
-
-             # verifica se o jogo acabou
+            # verifica se o jogo acabou
             if self.player.galo.hp <= 0:
-                self.draw_text_centered(screen, "Você perdeu!")
+                draw_text_centered(screen, "Você perdeu!")
                 pygame.display.update()
                 pygame.time.wait(10000)
                 return
             elif self.opponent.galo.hp <= 0:
-                self.draw_text_centered(screen, "Você ganhou!")
+                draw_text_centered(screen, "Você ganhou!")
                 pygame.display.update()
                 pygame.time.wait(10000)
                 return
 
+
             pygame.display.update()
             clock.tick(30)
-            
+
 
 
 def main():

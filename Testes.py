@@ -29,15 +29,15 @@ class Galo:
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
                 {"name": "Tiro - 15", "power": 15},
-                {"name": "Especial da Arma - 90", "power": 90},
+                {"name": "Especial da Arma - 100", "power": 100},
                 {"name": "Aumentar ataque", "power": 0}
             ]
         elif name == "Galo de Calca":
             self.attacks = [
-                {"name": "Bicada - 10", "power": 10},
-                {"name": "Calçada - 15", "power": 15},
-                {"name": "Especial da Calça", "power": 0},
-                {"name": "Aumentar ataque", "power": 0}
+                {"name": "Bicada - 10", "power": 100},
+                {"name": "Calçada - 15", "power": 150},
+                {"name": "Especial da Calça", "power": 100},
+                {"name": "Aumentar ataque", "power": 100}
             ]
         elif name == "Galo de Tenis":
             self.attacks = [
@@ -253,8 +253,28 @@ class Game:
                     draw_text(
                         screen, f"Você usou {self.selected_attack['name']}", 50, 400)
                     self.opponent.galo.hp -= self.selected_attack['power']
+                    if self.opponent.galo.hp <= 0:
+                        self.opponent.galo.hp = 0
+
+                        screen.fill((0, 0, 0))
+                        screen.blit(background, (0, 0))
+                        draw_text(
+                        screen, f"{self.opponent.galo.name} desmaiou e saiu de combate", 250, 50)
+                        draw_galo(screen, self.player.galo, 50, 320, 200)
+                        draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
+                        draw_health_bars(screen, self.player.galo, self.opponent.galo)
+                        draw_health_bars(screen, self.player.galo, self.opponent.galo)
+                        pygame.display.update()
+                        pygame.time.delay(4000)
+                        screen.fill((0, 0, 0))
+                        pygame.display.update()
+                        draw_text_centered(screen, "Você ganhou!")
+                        pygame.display.update()
+                        pygame.time.wait(2000)
+                        return
                     self.player_turn = False
                     self.attack_selected = False
+
 
                     pygame.time.delay(500)  # adiciona um delay de 500 ms
                     pygame.display.update()
@@ -271,6 +291,26 @@ class Game:
                 draw_text(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
                 self.player.galo.hp -= opponent_attack['power']
+
+                if self.player.galo.hp <= 0:
+                        self.player.galo.hp = 0
+
+                        screen.fill((0, 0, 0))
+                        screen.blit(background, (0, 0))
+                        draw_text(
+                        screen, f"{self.player.galo.name} desmaiou e saiu de combate", 250, 50)
+                        draw_galo(screen, self.player.galo, 50, 320, 200)
+                        draw_galo(screen, self.opponent.galo, 500, 20, 200)
+                        draw_health_bars(screen, self.player.galo, self.opponent.galo)
+                        pygame.display.update()
+                        pygame.time.delay(4000)
+                        screen.fill((0, 0, 0))
+                        pygame.display.update()
+                        draw_text_centered(screen, "Você Perdeu!")
+                        pygame.display.update()
+                        pygame.time.wait(2000)
+                        return
+                
                 draw_galo(screen, self.player.galo, 50, 320, 200)
                 draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)

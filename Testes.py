@@ -14,6 +14,7 @@ background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
 
 
 class Galo:
+    #Definindo o que representa um galo e seus atributos.
     def __init__(self, name, type, hp, attack):
         self.name = name
         self.type = type
@@ -34,10 +35,10 @@ class Galo:
             ]
         elif name == "Galo de Calca":
             self.attacks = [
-                {"name": "Bicada - 10", "power": 100},
-                {"name": "Calçada - 15", "power": 150},
-                {"name": "Especial da Calça", "power": 100},
-                {"name": "Aumentar ataque", "power": 100}
+                {"name": "Bicada - 10", "power": 10},
+                {"name": "Calçada - 15", "power": 10},
+                {"name": "Especial da Calça", "power": 10},
+                {"name": "Aumentar ataque", "power": 10}
             ]
         elif name == "Galo de Tenis":
             self.attacks = [
@@ -47,12 +48,12 @@ class Galo:
                 {"name": "Aumentar ataque", "power": 0}
             ]
 
-
+#Tela de inicio, definição padrão básica
 def draw_text(screen, text, x, y):
     surface = font.render(text, True, (255, 255, 255))
     screen.blit(surface, (x, y))
 
-
+#Função de desenhar os galos na tela, tamanho, e de onde pegar a imagem.
 def draw_galo(screen, galo, x, y, size):
     image = pygame.image.load(f"Imagens/{galo.name}.png")
     image = pygame.transform.scale(image, (size, size))
@@ -61,14 +62,12 @@ def draw_galo(screen, galo, x, y, size):
 
 
 # Definição de onde renderizar a foto do galo do oponente, e de onde pegar a imagem
-
-
 def draw_galooponnent(screen, galo, x, y, size):
     image = pygame.image.load(f"Imagens/{galo.name} Oponente.png")
     image = pygame.transform.scale(image, (size, size))
     screen.blit(image, (x, y))
 
-
+#Função da barra de vida de forma visual
 def draw_health_bars(screen, player_galo, opponent_galo):
     # Barra de vida do jogador
     draw_text(screen, str(player_galo.hp), 100, 590)
@@ -84,12 +83,13 @@ def draw_health_bars(screen, player_galo, opponent_galo):
     pygame.draw.rect(screen, (0, 255, 0), (490, 220,
                      int(200 * health_percentage), 20))
 
-
+#Função de atualizar as barras de vida
 def update_health_bars(player_galo, opponent_galo):
     player_galo_hp = player_galo.hp
     opponent_galo_hp = opponent_galo.hp
     return player_galo_hp, opponent_galo_hp
 
+#Função para escrever no centro da tela uma mensagem
 def draw_text_centered(screen, text):
             surface = font.render(text, True, (255, 255, 255))
             x = (screen.get_width() - surface.get_width()) // 2
@@ -97,7 +97,7 @@ def draw_text_centered(screen, text):
             screen.blit(surface, (x, y))
 
 
-
+#Inicio da classe jogador
 class Player:
     def __init__(self, galo):
         self.galo = galo
@@ -105,6 +105,14 @@ class Player:
 
 class Game:
 
+    #Modificadores de dano dos galos - Valores teste, são utilizados para multiplicar o dano referente à vantagem de tipo
+    type_chart = {
+        "Arma": {"Arma": 1, "Calca": 0.5, "Tenis": 2},
+        "Calca": {"Arma": 2, "Calca": 1, "Tenis": 0.5},
+        "Tenis": {"Arma": 0.5, "Calca": 2, "Tenis": 1}
+    }
+
+    #Iniciando o jogador, e seus atributos
     def __init__(self):
         self.player = None
         self.opponent = None
@@ -112,6 +120,7 @@ class Game:
         self.attack_selected = False
         self.selected_attack = None
 
+    #Definindo o galo do jogador (tela de seleção)
     def select_galo(self):
         selected_galo = None
         while selected_galo is None:
@@ -153,6 +162,7 @@ class Game:
                     selected_galo = galo3
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
+        # "Inteligência artificial" escolhendo o galo
             pygame.display.update()
         draw_text(screen, "Oponente Escolhendo.", 200, 400)
         pygame.display.update()
@@ -166,6 +176,7 @@ class Game:
         
         return Player(selected_galo)
 
+    #Função de escolher o galo do oponente
     def select_opponent(self):
         opponents = [
             Galo("Galo de Arma", "Arma", 100, 20),
@@ -181,6 +192,7 @@ class Game:
 
         # Seleciona o tipo de galo mais forte para combater o tipo do jogador
         opponent_type = None
+        
         for t in types_ordered:
             if t == player_type:
                 continue  # O oponente não pode escolher o mesmo tipo do jogador
@@ -252,7 +264,8 @@ class Game:
                 else:
                     draw_text(
                         screen, f"Você usou {self.selected_attack['name']}", 50, 400)
-                    self.opponent.galo.hp -= self.selected_attack['power']
+                    attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
+                    self.opponent.galo.hp -= int(self.selected_attack['power'] * attack_modifier)
                     if self.opponent.galo.hp <= 0:
                         self.opponent.galo.hp = 0
 
@@ -290,7 +303,9 @@ class Game:
                 opponent_attack = random.choice(self.opponent.galo.attacks)
                 draw_text(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
-                self.player.galo.hp -= opponent_attack['power']
+                attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
+                self.player.galo.hp -= int(opponent_attack['power'] * attack_modifier)
+
 
                 if self.player.galo.hp <= 0:
                         self.player.galo.hp = 0

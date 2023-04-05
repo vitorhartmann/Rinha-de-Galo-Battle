@@ -29,15 +29,15 @@ class Galo:
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
                 {"name": "Tiro - 15", "power": 15},
-                {"name": "Especial da Arma", "power": 0},
+                {"name": "Especial da Arma - 100", "power": 100},
                 {"name": "Aumentar ataque", "power": 0}
             ]
         elif name == "Galo de Calca":
             self.attacks = [
-                {"name": "Bicada - 10", "power": 10},
-                {"name": "Calçada - 15", "power": 15},
-                {"name": "Especial da Calça", "power": 0},
-                {"name": "Aumentar ataque", "power": 0}
+                {"name": "Bicada - 10", "power": 100},
+                {"name": "Calçada - 15", "power": 150},
+                {"name": "Especial da Calça", "power": 100},
+                {"name": "Aumentar ataque", "power": 100}
             ]
         elif name == "Galo de Tenis":
             self.attacks = [
@@ -90,6 +90,13 @@ def update_health_bars(player_galo, opponent_galo):
     opponent_galo_hp = opponent_galo.hp
     return player_galo_hp, opponent_galo_hp
 
+def draw_text_centered(screen, text):
+            surface = font.render(text, True, (255, 255, 255))
+            x = (screen.get_width() - surface.get_width()) // 2
+            y = (screen.get_height() - surface.get_height()) // 2
+            screen.blit(surface, (x, y))
+
+
 
 class Player:
     def __init__(self, galo):
@@ -132,22 +139,31 @@ class Game:
                 draw_text(screen, galo1.name, 150, 210)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo1
-                    pygame.time.delay(500)  # adiciona um delay de 500 ms
+                    pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo2_rect.collidepoint(mouse_pos):
                 draw_text(screen, galo2.name, 300, 210)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo2
-                    pygame.time.delay(500)  # adiciona um delay de 500 ms
+                    pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo3_rect.collidepoint(mouse_pos):
                 draw_text(screen, galo3.name, 450, 210)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo3
-                    pygame.time.delay(500)  # adiciona um delay de 500 ms
+                    pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             pygame.display.update()
-
+        draw_text(screen, "Oponente Escolhendo.", 200, 400)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        draw_text(screen, "Oponente Escolhendo..", 200, 400)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        draw_text(screen, "Oponente Escolhendo...", 200, 400)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        
         return Player(selected_galo)
 
     def select_opponent(self):
@@ -179,6 +195,7 @@ class Game:
                     opponent_galo = g
 
         return Player(opponent_galo)
+    
 
     def select_attack(self):
         selected_attack = None
@@ -186,7 +203,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-
+                
             screen.blit(background, (0, 0))
             draw_text(screen, f"{self.player.galo.name} ataca:", 50, 50)
             draw_galo(screen, self.player.galo, 50, 320, 200)
@@ -210,6 +227,7 @@ class Game:
 
     def fight(self):
         clock = pygame.time.Clock()
+
 
         while True:
             for event in pygame.event.get():
@@ -235,8 +253,28 @@ class Game:
                     draw_text(
                         screen, f"Você usou {self.selected_attack['name']}", 50, 400)
                     self.opponent.galo.hp -= self.selected_attack['power']
+                    if self.opponent.galo.hp <= 0:
+                        self.opponent.galo.hp = 0
+
+                        screen.fill((0, 0, 0))
+                        screen.blit(background, (0, 0))
+                        draw_text(
+                        screen, f"{self.opponent.galo.name} desmaiou e saiu de combate", 250, 50)
+                        draw_galo(screen, self.player.galo, 50, 320, 200)
+                        draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
+                        draw_health_bars(screen, self.player.galo, self.opponent.galo)
+                        draw_health_bars(screen, self.player.galo, self.opponent.galo)
+                        pygame.display.update()
+                        pygame.time.delay(4000)
+                        screen.fill((0, 0, 0))
+                        pygame.display.update()
+                        draw_text_centered(screen, "Você Ganhou!")
+                        pygame.display.update()
+                        pygame.time.wait(2000)
+                        return
                     self.player_turn = False
                     self.attack_selected = False
+
 
                     pygame.time.delay(500)  # adiciona um delay de 500 ms
                     pygame.display.update()
@@ -253,6 +291,26 @@ class Game:
                 draw_text(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
                 self.player.galo.hp -= opponent_attack['power']
+
+                if self.player.galo.hp <= 0:
+                        self.player.galo.hp = 0
+
+                        screen.fill((0, 0, 0))
+                        screen.blit(background, (0, 0))
+                        draw_text(
+                        screen, f"{self.player.galo.name} desmaiou e saiu de combate", 50, 200)
+                        draw_galo(screen, self.player.galo, 50, 320, 200)
+                        draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
+                        draw_health_bars(screen, self.player.galo, self.opponent.galo)
+                        pygame.display.update()
+                        pygame.time.delay(4000)
+                        screen.fill((0, 0, 0))
+                        pygame.display.update()
+                        draw_text_centered(screen, "Você Perdeu!")
+                        pygame.display.update()
+                        pygame.time.wait(2000)
+                        return
+                
                 draw_galo(screen, self.player.galo, 50, 320, 200)
                 draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)
@@ -266,21 +324,21 @@ class Game:
                 self.player.galo, self.opponent.galo)
             self.player.galo.hp = player_galo_hp
             self.opponent.galo.hp = opponent_galo_hp
+            pygame.display.update()
+            
 
             # verifica se o jogo acabou
             if self.player.galo.hp <= 0:
-                draw_text(screen, "Você perdeu!", 50, 400)
                 pygame.display.update()
-                pygame.time.wait(2000)
-                break
+                return
             elif self.opponent.galo.hp <= 0:
-                draw_text(screen, "Você ganhou!", 50, 400)
                 pygame.display.update()
-                pygame.time.wait(2000)
-                break
+                return
+
 
             pygame.display.update()
             clock.tick(30)
+
 
 
 def main():
@@ -289,9 +347,29 @@ def main():
     game.player = game.select_galo()
     game.opponent = game.select_opponent()
 
+    # Loop principal do jogo
     while True:
+        # Limpa a tela
+        screen.fill((0, 0, 0))
+
+        # Verifica se o jogador ou o oponente zerou a vida
+        if game.player.galo.hp <= 0:
+            draw_text_centered(screen, "Você Perdeu!")
+            pygame.display.update()
+            pygame.time.wait(10000)
+            break
+        elif game.opponent.galo.hp <= 0:
+            draw_text_centered(screen, "Você Ganhou!")
+            pygame.display.update()
+            pygame.time.wait(5000)
+            break
+
+        # Seleciona o ataque e inicia a luta
         game.select_attack()
         game.fight()
+
+    pygame.quit()
+
 
 
 if __name__ == "__main__":

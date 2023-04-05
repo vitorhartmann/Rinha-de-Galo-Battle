@@ -268,7 +268,7 @@ class Game:
                         pygame.time.delay(4000)
                         screen.fill((0, 0, 0))
                         pygame.display.update()
-                        draw_text_centered(screen, "Você ganhou!")
+                        draw_text_centered(screen, "Você Ganhou!")
                         pygame.display.update()
                         pygame.time.wait(2000)
                         return
@@ -298,9 +298,9 @@ class Game:
                         screen.fill((0, 0, 0))
                         screen.blit(background, (0, 0))
                         draw_text(
-                        screen, f"{self.player.galo.name} desmaiou e saiu de combate", 250, 50)
+                        screen, f"{self.player.galo.name} desmaiou e saiu de combate", 50, 200)
                         draw_galo(screen, self.player.galo, 50, 320, 200)
-                        draw_galo(screen, self.opponent.galo, 500, 20, 200)
+                        draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
                         draw_health_bars(screen, self.player.galo, self.opponent.galo)
                         pygame.display.update()
                         pygame.time.delay(4000)
@@ -354,12 +354,12 @@ def main():
 
         # Verifica se o jogador ou o oponente zerou a vida
         if game.player.galo.hp <= 0:
-            draw_text_centered(screen, "Você perdeu!")
+            draw_text_centered(screen, "Você Perdeu!")
             pygame.display.update()
             pygame.time.wait(10000)
             break
         elif game.opponent.galo.hp <= 0:
-            draw_text_centered(screen, "Você ganhou!")
+            draw_text_centered(screen, "Você Ganhou!")
             pygame.display.update()
             pygame.time.wait(5000)
             break

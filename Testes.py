@@ -253,14 +253,22 @@ class Game:
         "Quadra de Esportes": {"Arma": 0.9, "Calca": 0.9, "Tenis": 1.1}
         }
 
+        fundos = [
+        pygame.image.load(f"Imagens/Favela.png"),
+        pygame.image.load(f"Imagens/Loja.png"),
+        pygame.image.load(f"Imagens/Quadra.png")
+        ]
+
         terreno_escolhido = random.choice(list(terrenos.keys()))
+        fundo = fundos[list(terrenos.keys()).index(terreno_escolhido)]
+        
 
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
 
-            screen.blit(background, (0, 0))
+            screen.blit(fundo, (0, 0))
 
             if self.player_turn:
                 draw_text(screen, "Sua vez de atacar", 50, 50)
@@ -294,6 +302,7 @@ class Game:
 
                         screen.fill((0, 0, 0))
                         screen.blit(background, (0, 0))
+                        screen.blit(fundo, (0, 0))
                         draw_text(
                         screen, f"{self.opponent.galo.name} desmaiou e saiu de combate", 250, 50)
                         draw_galo(screen, self.player.galo, 50, 320, 200)
@@ -342,6 +351,7 @@ class Game:
 
                         screen.fill((0, 0, 0))
                         screen.blit(background, (0, 0))
+                        screen.blit(fundo, (0, 0))
                         draw_text(
                         screen, f"{self.player.galo.name} desmaiou e saiu de combate", 50, 200)
                         draw_galo(screen, self.player.galo, 50, 320, 200)

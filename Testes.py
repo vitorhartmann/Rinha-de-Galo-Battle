@@ -30,21 +30,21 @@ class Galo:
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
                 {"name": "Tiro - 15", "power": 15},
-                {"name": "Especial da Arma - 100", "power": 100},
+                {"name": "Ataque Especial", "power": 15},
                 {"name": "Aumentar ataque", "power": 0}
             ]
         elif name == "Galo de Calca":
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
-                {"name": "Calçada - 15", "power": 10},
-                {"name": "Especial da Calça", "power": 10},
-                {"name": "Aumentar ataque", "power": 10}
+                {"name": "Calçada - 15", "power": 15},
+                {"name": "Ataque Especial", "power": 15},
+                {"name": "Aumentar ataque", "power": 0}
             ]
         elif name == "Galo de Tenis":
             self.attacks = [
                 {"name": "Bicada - 10", "power": 10},
                 {"name": "Chute - 15", "power": 15},
-                {"name": "Especial do Tenis", "power": 0},
+                {"name": "Ataque Especial", "power": 15},
                 {"name": "Aumentar ataque", "power": 0}
             ]
 
@@ -107,9 +107,9 @@ class Game:
 
     #Modificadores de dano dos galos - Valores teste, são utilizados para multiplicar o dano referente à vantagem de tipo
     type_chart = {
-        "Arma": {"Arma": 1, "Calca": 0.5, "Tenis": 2},
-        "Calca": {"Arma": 2, "Calca": 1, "Tenis": 0.5},
-        "Tenis": {"Arma": 0.5, "Calca": 2, "Tenis": 1}
+        "Arma": {"Arma": 1, "Calca": 0.7, "Tenis": 1.3},
+        "Calca": {"Arma": 1.3, "Calca": 1, "Tenis": 0.7 },
+        "Tenis": {"Arma": 0.7, "Calca": 1.3, "Tenis": 1}
     }
 
     #Iniciando o jogador, e seus atributos
@@ -263,8 +263,14 @@ class Game:
                 else:
                     draw_text(
                         screen, f"Você usou {self.selected_attack['name']}", 50, 400)
-                    attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
+                    if self.selected_attack['name'] == "Ataque Especial":
+                        attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
+                    
+                    else:
+                       attack_modifier = 1 
+
                     self.opponent.galo.hp -= int(self.selected_attack['power'] * attack_modifier)
+
                     if self.opponent.galo.hp <= 0:
                         self.opponent.galo.hp = 0
 
@@ -302,7 +308,12 @@ class Game:
                 opponent_attack = random.choice(self.opponent.galo.attacks)
                 draw_text(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
-                attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
+                
+                if opponent_attack['name'] == "Ataque Especial":
+                    attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
+                else:
+                    attack_modifier = 1
+                    
                 self.player.galo.hp -= int(opponent_attack['power'] * attack_modifier)
 
 

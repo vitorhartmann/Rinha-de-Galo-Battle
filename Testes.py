@@ -97,6 +97,7 @@ def draw_text_centered(screen, text):
             screen.blit(surface, (x, y))
 
 
+
 #Inicio da classe jogador
 class Player:
     def __init__(self, galo):
@@ -111,6 +112,11 @@ class Game:
         "Calca": {"Arma": 1.3, "Calca": 1, "Tenis": 0.7 },
         "Tenis": {"Arma": 0.7, "Calca": 1.3, "Tenis": 1}
     }
+
+
+
+    
+
 
     #Iniciando o jogador, e seus atributos
     def __init__(self):
@@ -240,6 +246,15 @@ class Game:
         clock = pygame.time.Clock()
 
 
+            #Modificadores de terrenos - São utilizados para multiplicador o dano referente ao terreno atual
+        terrenos = {
+        "Favela": {"Arma": 1.1, "Calca": 0.9, "Tenis": 0.9},
+        "Loja de Roupas": {"Arma": 0.9, "Calca": 1.1, "Tenis": 0.9 },
+        "Quadra de Esportes": {"Arma": 0.9, "Calca": 0.9, "Tenis": 1.1}
+        }
+
+        terreno_escolhido = random.choice(list(terrenos.keys()))
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -269,7 +284,10 @@ class Game:
                     else:
                        attack_modifier = 1 
 
-                    self.opponent.galo.hp -= int(self.selected_attack['power'] * attack_modifier)
+                    
+                    terreno_modifier = terrenos[terreno_escolhido][self.player.galo.type]
+
+                    self.opponent.galo.hp -= int(self.selected_attack['power'] * attack_modifier * terreno_modifier)
 
                     if self.opponent.galo.hp <= 0:
                         self.opponent.galo.hp = 0
@@ -313,8 +331,10 @@ class Game:
                     attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
                 else:
                     attack_modifier = 1
-                    
-                self.player.galo.hp -= int(opponent_attack['power'] * attack_modifier)
+
+                terreno_modifier = terrenos[terreno_escolhido][self.opponent.galo.type]
+
+                self.player.galo.hp -= int(opponent_attack['power'] * attack_modifier * terreno_modifier)
 
 
                 if self.player.galo.hp <= 0:

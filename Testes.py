@@ -186,18 +186,16 @@ class Game:
 
         # Cria uma lista ordenada de tipos de galos, do mais forte ao mais fraco
         types_ordered = ["Arma", "Calca", "Tenis"]
-
-        # Verifica qual é o tipo de galo do jogador
         player_type = self.player.galo.type
+        types_ordered.remove(player_type) # remove o tipo de galo do jogador da lista
 
         # Seleciona o tipo de galo mais forte para combater o tipo do jogador
         opponent_type = None
-        
         for t in types_ordered:
-            if t == player_type:
-                continue  # O oponente não pode escolher o mesmo tipo do jogador
-            opponent_type = t
-            break
+            if opponent_type is None:
+                opponent_type = t
+            elif Game.type_chart[t][player_type] > Game.type_chart[opponent_type][player_type]:
+                opponent_type = t
 
         # Seleciona o galo mais forte do tipo escolhido pelo oponente
         opponent_galo = None
@@ -207,6 +205,7 @@ class Game:
                     opponent_galo = g
 
         return Player(opponent_galo)
+
     
 
     def select_attack(self):

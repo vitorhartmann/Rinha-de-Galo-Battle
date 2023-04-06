@@ -375,7 +375,48 @@ class Game:
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)
                 pygame.display.update()
                 pygame.time.delay(3000)
-                opponent_attack = random.choice(self.opponent.galo.attacks)
+
+                def find_best_attack(opponent_galo, player_galo):
+                    best_attack = None
+                    max_damage = 0
+                    use_attack_modifier = False
+
+                    # Priorize o uso do ataque "Aumentar Ataque" caso o contador ainda não tenha atingido 2 ou o HP do oponente seja maior que 65
+                    if opponent_galo.hp > 65 and contadorOponente < 2:
+                        use_attack_modifier = True
+
+                    for attack in opponent_galo.attacks:
+                        if attack['name'] == "Aumentar Ataque":
+                            if contadorOponente >= 2 or opponent_galo.hp < 65:
+                                continue
+
+                            if use_attack_modifier:
+                                best_attack = attack
+                                max_damage = 0
+                                break
+
+                        if attack['name'] == "Ataque Especial":
+                            attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
+                        else:
+                            attack_modifier = 1
+
+                        terreno_modifier = terrenos[terreno_escolhido][opponent_galo.type]
+
+                        damage = int(
+                            attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueOponente)
+
+                        if damage > max_damage:
+                            best_attack = attack
+                            max_damage = damage
+
+                    return best_attack
+                opponent_attack = find_best_attack(
+                    self.opponent.galo, self.player.galo)
+
+                # Ataque aleatorio abaixo (para testes)
+                # opponent_attack = random.choice(self.opponent.galo.attacks)
+                # Fim do ataque aleatorio
+
                 draw_text(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
 

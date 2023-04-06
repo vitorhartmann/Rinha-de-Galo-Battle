@@ -4,7 +4,7 @@ import random
 
 
 pygame.font.init()
-font = pygame.font.SysFont("Arial", 16)
+font = pygame.font.SysFont("Arial", 30)
 
 pygame.init()
 width, height = 720, 640
@@ -73,6 +73,18 @@ def draw_text(screen, text, x, y):
     surface = font.render(text, True, (255, 255, 255))
     screen.blit(surface, (x, y))
 
+
+def draw_grande(screen, text, x, y):
+    # criando a superfície de texto
+    surface = font.render(text, True, (255, 255, 255))
+
+    # configurando o estilo do texto
+    surface = pygame.font.Font.render(
+        font, text, True, (255, 255, 255), (0, 0, 0))
+
+    # exibindo o texto na tela
+    screen.blit(surface, (x, y))
+
 # Função de desenhar os galos na tela, tamanho, e de onde pegar a imagem.
 
 
@@ -89,19 +101,20 @@ def draw_galooponnent(screen, galo, x, y, size):
     image = pygame.transform.scale(image, (size, size))
     screen.blit(image, (x, y))
 
+
 # Função da barra de vida de forma visual
 
 
 def draw_health_bars(screen, player_galo, opponent_galo):
     # Barra de vida do jogador
-    draw_text(screen, str(player_galo.hp), 100, 590)
+    draw_grande(screen, str(player_galo.hp), 100, 590)
     pygame.draw.rect(screen, (255, 0, 0), (50, 550, 200, 20))
     health_percentage = player_galo.hp / 100
     pygame.draw.rect(screen, (0, 255, 0),
                      (50, 550, int(200 * health_percentage), 20))
 
     # Barra de vida do oponente
-    draw_text(screen, str(opponent_galo.hp), 570, 250)
+    draw_grande(screen, str(opponent_galo.hp), 570, 250)
     pygame.draw.rect(screen, (255, 0, 0), (490, 220, 200, 20))
     health_percentage = opponent_galo.hp / 100
     pygame.draw.rect(screen, (0, 255, 0), (490, 220,
@@ -313,7 +326,7 @@ class Game:
                         screen.blit(background, (0, 0))
                         screen.blit(fundo, (0, 0))
                         draw_text(
-                            screen, f"{self.opponent.galo.name} desmaiou e saiu de combate", 250, 50)
+                            screen, f"{self.opponent.galo.name} desmaiou e saiu de combate", 200, 50)
                         draw_galo(screen, self.player.galo, 50, 320, 200)
                         draw_galooponnent(
                             screen, self.opponent.galo, 500, 20, 200)

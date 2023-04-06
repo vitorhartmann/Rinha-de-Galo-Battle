@@ -221,25 +221,14 @@ class Game:
                     selected_galo = galo3
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
-        # "Inteligência artificial" escolhendo o galo
-            pygame.display.update()
-        screen.blit(background, (0, 0))
-        draw_text(screen, "Oponente Escolhendo.", 200, 400)
-        pygame.display.update()
-        pygame.time.delay(1000)
-        screen.blit(background, (0, 0))
-        draw_text(screen, "Oponente Escolhendo..", 200, 400)
-        pygame.display.update()
-        pygame.time.delay(1000)
-        screen.blit(background, (0, 0))
-        draw_text(screen, "Oponente Escolhendo...", 200, 400)
-        pygame.display.update()
-        pygame.time.delay(2000)
+       
 
+            pygame.display.update()
         return Player(selected_galo)
 
     # Função de escolher o galo do oponente
     def select_opponent(self):
+
         opponents = [
             Galo("Galo de Arma", "Arma", 100, 20),
             Galo("Galo de Calca", "Calca", 100, 20),
@@ -268,8 +257,41 @@ class Game:
                     opponent_galo = g
 
         return Player(opponent_galo)
+    
+    def animacaoentradajogador(self):
+        # "Inteligência artificial" escolhendo o galo, enquanto você manda seu galo pra combate
+        pygame.display.update()
+        screen.blit(background, (0, 0))
+        draw_text(screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
+        draw_galo(screen, self.player.galo, 50, 320, 200)
+        pygame.display.update()
+        pygame.time.delay(2000)
+
+    def animacaoentradaoponente(self):
+        draw_text(screen, "Oponente Escolhendo.", 100, 250)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        screen.blit(background, (0, 0))
+        draw_galo(screen, self.player.galo, 50, 320, 200)
+        draw_text(screen, "Oponente Escolhendo..", 100, 250)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        screen.blit(background, (0, 0))
+        draw_galo(screen, self.player.galo, 50, 320, 200)
+        draw_text(screen, "Oponente Escolhendo...", 100, 250)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        screen.blit(background, (0, 0))
+        draw_galo(screen, self.player.galo, 50, 320, 200)
+        draw_text(screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
+        pygame.display.update()
+        pygame.time.delay(1000)
 
     def select_attack(self):
+
         selected_attack = None
         while selected_attack is None:
             for event in pygame.event.get():
@@ -506,7 +528,9 @@ def main():
     pygame.init()
     game = Game()
     game.player = game.select_galo()
+    game.entradajogador = game.animacaoentradajogador()
     game.opponent = game.select_opponent()
+    game.entradaoponente = game.animacaoentradaoponente()
 
     # Loop principal do jogo
     while True:

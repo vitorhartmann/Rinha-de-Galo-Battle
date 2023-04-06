@@ -149,9 +149,9 @@ class Game:
 
     # Modificadores de dano dos galos - Valores teste, são utilizados para multiplicar o dano referente à vantagem de tipo
     type_chart = {
-        "Arma": {"Arma": 1, "Calca": 0.7, "Tenis": 1.3},
-        "Calca": {"Arma": 1.3, "Calca": 1, "Tenis": 0.7},
-        "Tenis": {"Arma": 0.7, "Calca": 1.3, "Tenis": 1}
+        "Arma": {"Arma": 1, "Calca": 0.8, "Tenis": 1.25},
+        "Calca": {"Arma": 1.25, "Calca": 1, "Tenis": 0.8},
+        "Tenis": {"Arma": 0.8, "Calca": 1.25, "Tenis": 1}
     }
 
     # Iniciando o jogador, e seus atributos
@@ -394,10 +394,10 @@ class Game:
                 terreno_modifier = terrenos[terreno_escolhido][self.opponent.galo.type]
 
                 draw_text(screen, f"Oponente causou " + str(int(
-                    opponent_attack['power'] * attack_modifier * terreno_modifier)) + " de dano", 50, 150)
+                    opponent_attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueOponente)) + " de dano", 50, 150)
                 pygame.display.update()
                 self.player.galo.hp -= int(
-                    opponent_attack['power'] * attack_modifier * terreno_modifier)
+                    opponent_attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueOponente)
 
                 if self.player.galo.hp <= 0:
                     self.player.galo.hp = 0

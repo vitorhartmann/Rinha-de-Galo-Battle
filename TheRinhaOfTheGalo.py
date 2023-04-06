@@ -189,19 +189,34 @@ class Game:
             # verifica se o jogador clicou em algum dos galos
             mouse_pos = pygame.mouse.get_pos()
             if galo1_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo1.name, 150, 210)
+                draw_text(screen, galo1.name, 120, 210)
+                draw_text(screen, f"Bom contra: {galo3.name}", 200, 280)
+                draw_text(screen, f"Modificador de Terreno:", 200, 310)
+                draw_text(screen, f"Favela (1.1X)", 200, 340)
+                draw_text(screen, f"Loja (0.9X)", 200, 370)
+                draw_text(screen, f"Quadra (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo1
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo2_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo2.name, 300, 210)
+                draw_text(screen, galo2.name, 270, 210)
+                draw_text(screen, f"Bom contra: {galo1.name}", 200, 280)
+                draw_text(screen, f"Modificador de Terreno:", 200, 310)
+                draw_text(screen, f"Loja (1.1X)", 200, 340)
+                draw_text(screen, f"Quadra (0.9X)", 200, 370)
+                draw_text(screen, f"Favela (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo2
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo3_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo3.name, 450, 210)
+                draw_text(screen, galo3.name, 420, 210)
+                draw_text(screen, f"Bom contra: {galo2.name}", 200, 280)
+                draw_text(screen, f"Modificador de Terreno:", 200, 310)
+                draw_text(screen, f"Quadra (1.1X)", 200, 340)
+                draw_text(screen, f"Favela (0.9X)", 200, 370)
+                draw_text(screen, f"Loja (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo3
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms

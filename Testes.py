@@ -231,8 +231,6 @@ class Game:
                     selected_galo = galo3
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
-       
-
             pygame.display.update()
         return Player(selected_galo)
 
@@ -267,17 +265,17 @@ class Game:
                     opponent_galo = g
 
         return Player(opponent_galo)
-    
+
     def animacaoentradajogador(self):
         # "Inteligência artificial" escolhendo o galo, enquanto você manda seu galo pra combate
         pygame.display.update()
         screen.blit(background, (0, 0))
-        draw_text(screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
+        draw_text(
+            screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
         EntradaJogador.play()
         draw_galo(screen, self.player.galo, 50, 320, 200)
         pygame.display.update()
         pygame.time.delay(3000)
-        
 
     def animacaoentradaoponente(self):
         draw_text(screen, "Oponente Escolhendo.", 200, 250)
@@ -295,7 +293,8 @@ class Game:
         pygame.time.delay(2000)
         screen.blit(background, (0, 0))
         draw_galo(screen, self.player.galo, 50, 320, 200)
-        draw_text(screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
+        draw_text(
+            screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
         pygame.display.update()
         pygame.time.delay(2000)
         EntradaOponente.play()
@@ -372,7 +371,7 @@ class Game:
                             base_de_ataqueJogador = base_de_ataqueJogador + 0.5
                             contadorJogador = contadorJogador + 1
                             draw_grande(screen, f"Você aumentou seu dano base para " +
-                                      str(float(base_de_ataqueJogador)), 50, 190)
+                                        str(float(base_de_ataqueJogador)), 50, 190)
                         else:
                             draw_grande(
                                 screen, "Você já aumentou o máximo de vezes o aumento de ataque", 50, 190)
@@ -396,7 +395,7 @@ class Game:
                         screen.fill((0, 0, 0))
                         screen.blit(background, (0, 0))
                         screen.blit(fundo, (0, 0))
-                        draw_text(
+                        draw_grande(
                             screen, f"{self.opponent.galo.name} desmaiou e saiu de combate", 200, 50)
                         draw_galo(screen, self.player.galo, 50, 320, 200)
                         draw_galooponnent(
@@ -498,7 +497,7 @@ class Game:
                     screen.fill((0, 0, 0))
                     screen.blit(background, (0, 0))
                     screen.blit(fundo, (0, 0))
-                    draw_text(
+                    draw_grande(
                         screen, f"{self.player.galo.name} desmaiou e saiu de combate", 50, 200)
                     draw_galo(screen, self.player.galo, 50, 320, 200)
                     draw_galooponnent(
@@ -545,8 +544,6 @@ def main():
     game.entradajogador = game.animacaoentradajogador()
     game.opponent = game.select_opponent()
     game.entradaoponente = game.animacaoentradaoponente()
-
-    
 
     # Loop principal do jogo
     while True:

@@ -5,6 +5,8 @@ import random
 
 pygame.font.init()
 font = pygame.font.SysFont("Arial", 30)
+Pequena = pygame.font.SysFont("Arial", 15)
+Grande = pygame.font.SysFont("Verdana", 20)
 
 pygame.init()
 width, height = 720, 640
@@ -78,11 +80,11 @@ def draw_text(screen, text, x, y):
 
 def draw_grande(screen, text, x, y):
     # criando a superfície de texto
-    surface = font.render(text, True, (255, 255, 255))
+    surface = Grande.render(text, True, (255, 255, 255))
 
     # configurando o estilo do texto
     surface = pygame.font.Font.render(
-        font, text, True, (255, 255, 255), (0, 0, 0))
+        Grande, text, True, (255, 255, 255), (0, 0, 0))
 
     # exibindo o texto na tela
     screen.blit(surface, (x, y))
@@ -189,42 +191,46 @@ class Game:
             # verifica se o jogador clicou em algum dos galos
             mouse_pos = pygame.mouse.get_pos()
             if galo1_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo1.name, 150, 210)
+                draw_text(screen, galo1.name, 120, 210)
+                draw_text(screen, f"Bom contra: {galo3.name}", 200, 280)
+                draw_text(screen, f"Modificador de Terreno:", 200, 310)
+                draw_text(screen, f"Favela (1.1X)", 200, 340)
+                draw_text(screen, f"Loja (0.9X)", 200, 370)
+                draw_text(screen, f"Quadra (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo1
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo2_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo2.name, 300, 210)
+                draw_text(screen, galo2.name, 270, 210)
+                draw_text(screen, f"Bom contra: {galo1.name}", 200, 280)
+                draw_text(screen, f"Modificador de Terreno:", 200, 310)
+                draw_text(screen, f"Loja (1.1X)", 200, 340)
+                draw_text(screen, f"Quadra (0.9X)", 200, 370)
+                draw_text(screen, f"Favela (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo2
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo3_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo3.name, 450, 210)
+                draw_text(screen, galo3.name, 420, 210)
+                draw_text(screen, f"Bom contra: {galo2.name}", 200, 280)
+                draw_text(screen, f"Modificador de Terreno:", 200, 310)
+                draw_text(screen, f"Quadra (1.1X)", 200, 340)
+                draw_text(screen, f"Favela (0.9X)", 200, 370)
+                draw_text(screen, f"Loja (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo3
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
-        # "Inteligência artificial" escolhendo o galo
-            pygame.display.update()
-        screen.blit(background, (0, 0))
-        draw_text(screen, "Oponente Escolhendo.", 200, 400)
-        pygame.display.update()
-        pygame.time.delay(1000)
-        screen.blit(background, (0, 0))
-        draw_text(screen, "Oponente Escolhendo..", 200, 400)
-        pygame.display.update()
-        pygame.time.delay(1000)
-        screen.blit(background, (0, 0))
-        draw_text(screen, "Oponente Escolhendo...", 200, 400)
-        pygame.display.update()
-        pygame.time.delay(2000)
+       
 
+            pygame.display.update()
         return Player(selected_galo)
 
     # Função de escolher o galo do oponente
     def select_opponent(self):
+
         opponents = [
             Galo("Galo de Arma", "Arma", 100, 20),
             Galo("Galo de Calca", "Calca", 100, 20),
@@ -253,8 +259,41 @@ class Game:
                     opponent_galo = g
 
         return Player(opponent_galo)
+    
+    def animacaoentradajogador(self):
+        # "Inteligência artificial" escolhendo o galo, enquanto você manda seu galo pra combate
+        pygame.display.update()
+        screen.blit(background, (0, 0))
+        draw_text(screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
+        draw_galo(screen, self.player.galo, 50, 320, 200)
+        pygame.display.update()
+        pygame.time.delay(2000)
+
+    def animacaoentradaoponente(self):
+        draw_text(screen, "Oponente Escolhendo.", 200, 250)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        screen.blit(background, (0, 0))
+        draw_galo(screen, self.player.galo, 50, 320, 200)
+        draw_text(screen, "Oponente Escolhendo..", 200, 250)
+        pygame.display.update()
+        pygame.time.delay(1000)
+        screen.blit(background, (0, 0))
+        draw_galo(screen, self.player.galo, 50, 320, 200)
+        draw_text(screen, "Oponente Escolhendo...", 200, 250)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        screen.blit(background, (0, 0))
+        draw_galo(screen, self.player.galo, 50, 320, 200)
+        draw_text(screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
+        pygame.display.update()
+        pygame.time.delay(2000)
 
     def select_attack(self):
+
         selected_attack = None
         while selected_attack is None:
             for event in pygame.event.get():
@@ -262,7 +301,7 @@ class Game:
                     pygame.quit()
 
             screen.blit(fundo, (0, 0))
-            draw_text(screen, f"{self.player.galo.name} ataca:", 50, 50)
+            draw_grande(screen, f"{self.player.galo.name} ataca:", 50, 50)
             draw_galo(screen, self.player.galo, 50, 320, 200)
             draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
             draw_health_bars(screen, self.player.galo, self.opponent.galo)
@@ -270,7 +309,7 @@ class Game:
             # exibe os ataques disponíveis
             for i, attack in enumerate(self.player.galo.attacks):
                 text = f"{i + 1}. {attack['name']}"
-                draw_text(screen, text, 50, 100 + i * 50)
+                draw_grande(screen, text, 50, 100 + i * 50)
 
                 # verifica se o jogador clicou em algum dos ataques
                 mouse_pos = pygame.mouse.get_pos()
@@ -298,7 +337,7 @@ class Game:
             screen.blit(fundo, (0, 0))
 
             if self.player_turn:
-                draw_text(screen, "Sua vez de atacar", 50, 50)
+                draw_grande(screen, "Sua vez de atacar", 50, 50)
                 draw_galo(screen, self.player.galo, 50, 320, 200)
                 draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)
@@ -308,7 +347,7 @@ class Game:
                 if not self.attack_selected:
                     self.select_attack()  # seleciona o ataque apenas uma vez
                 else:
-                    draw_text(
+                    draw_grande(
                         screen, f"Você usou {self.selected_attack['name']}", 50, 100)
                     if self.selected_attack['name'] == "Ataque Especial":
                         attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
@@ -320,10 +359,10 @@ class Game:
                         if contadorJogador < 2:
                             base_de_ataqueJogador = base_de_ataqueJogador + 0.5
                             contadorJogador = contadorJogador + 1
-                            draw_text(screen, f"Você aumentou seu dano base para " +
+                            draw_grande(screen, f"Você aumentou seu dano base para " +
                                       str(float(base_de_ataqueJogador)), 50, 190)
                         else:
-                            draw_text(
+                            draw_grande(
                                 screen, "Você já aumentou o máximo de vezes o aumento de ataque", 50, 190)
 
                     else:
@@ -331,7 +370,7 @@ class Game:
 
                     terreno_modifier = terrenos[terreno_escolhido][self.player.galo.type]
 
-                    draw_text(screen, f"Você causou " + str(int(
+                    draw_grande(screen, f"Você causou " + str(int(
                         self.selected_attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueJogador)) + " de dano", 50, 150)
                     pygame.display.update()
                     pygame.time.delay(2000)
@@ -370,7 +409,7 @@ class Game:
 
             else:
                 pygame.display.update()
-                draw_text(screen, "Vez do oponente atacar", 50, 50)
+                draw_grande(screen, "Vez do oponente atacar", 50, 50)
                 draw_galo(screen, self.player.galo, 50, 320, 200)
                 draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)
@@ -418,7 +457,7 @@ class Game:
                 # opponent_attack = random.choice(self.opponent.galo.attacks)
                 # Fim do ataque aleatorio
 
-                draw_text(
+                draw_grande(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
 
                 if opponent_attack['name'] == "Ataque Especial":
@@ -435,7 +474,7 @@ class Game:
 
                 terreno_modifier = terrenos[terreno_escolhido][self.opponent.galo.type]
 
-                draw_text(screen, f"Oponente causou " + str(int(
+                draw_grande(screen, f"Oponente causou " + str(int(
                     opponent_attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueOponente)) + " de dano", 50, 150)
                 pygame.display.update()
                 self.player.galo.hp -= int(
@@ -491,7 +530,9 @@ def main():
     pygame.init()
     game = Game()
     game.player = game.select_galo()
+    game.entradajogador = game.animacaoentradajogador()
     game.opponent = game.select_opponent()
+    game.entradaoponente = game.animacaoentradaoponente()
 
     # Loop principal do jogo
     while True:

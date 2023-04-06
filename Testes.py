@@ -534,6 +534,10 @@ def main():
     game.opponent = game.select_opponent()
     game.entradaoponente = game.animacaoentradaoponente()
 
+    pygame.mixer.init()
+    Derrota = pygame.mixer.Sound('Sons/Derrota.mp3')
+    Vitoria = pygame.mixer.Sound('Sons/Vitoria.mp3')
+
     # Loop principal do jogo
     while True:
         # Limpa a tela
@@ -542,11 +546,15 @@ def main():
         # Verifica se o jogador ou o oponente zerou a vida
         if game.player.galo.hp <= 0:
             draw_text_centered(screen, "Você Perdeu!")
+            Derrota.play()
+            Derrota.stop()
             pygame.display.update()
             pygame.time.wait(10000)
             break
         elif game.opponent.galo.hp <= 0:
             draw_text_centered(screen, "Você Ganhou!")
+            Vitoria.play()
+            Vitoria.stop()
             pygame.display.update()
             pygame.time.wait(5000)
             break

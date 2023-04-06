@@ -268,27 +268,27 @@ class Game:
         pygame.time.delay(2000)
 
     def animacaoentradaoponente(self):
-        draw_text(screen, "Oponente Escolhendo.", 100, 250)
+        draw_text(screen, "Oponente Escolhendo.", 200, 250)
         pygame.display.update()
         pygame.time.delay(1000)
         screen.blit(background, (0, 0))
         draw_galo(screen, self.player.galo, 50, 320, 200)
-        draw_text(screen, "Oponente Escolhendo..", 100, 250)
+        draw_text(screen, "Oponente Escolhendo..", 200, 250)
         pygame.display.update()
         pygame.time.delay(1000)
         screen.blit(background, (0, 0))
         draw_galo(screen, self.player.galo, 50, 320, 200)
-        draw_text(screen, "Oponente Escolhendo...", 100, 250)
+        draw_text(screen, "Oponente Escolhendo...", 200, 250)
         pygame.display.update()
         pygame.time.delay(2000)
         screen.blit(background, (0, 0))
         draw_galo(screen, self.player.galo, 50, 320, 200)
         draw_text(screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
         pygame.display.update()
-        pygame.time.delay(1000)
+        pygame.time.delay(2000)
         draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
         pygame.display.update()
-        pygame.time.delay(1000)
+        pygame.time.delay(2000)
 
     def select_attack(self):
 

@@ -33,6 +33,7 @@ fundo = fundos[list(terrenos.keys()).index(terreno_escolhido)]
 
 class Galo:
     # Definindo o que representa um galo e seus atributos.
+
     def __init__(self, name, type, hp, attack):
         self.name = name
         self.type = type
@@ -46,24 +47,24 @@ class Galo:
 
         if name == "Galo de Arma":
             self.attacks = [
-                {"name": "Bicada", "power": 10},
-                {"name": "Tiro", "power": 15},
-                {"name": "Ataque Especial", "power": 15},
-                {"name": "Aumentar ataque", "power": 0}
+                {"name": "Bicada", "power": 5},
+                {"name": "Tiro", "power": 10},
+                {"name": "Ataque Especial", "power": 10},
+                {"name": "Aumentar Ataque", "power": 0}
             ]
         elif name == "Galo de Calca":
             self.attacks = [
-                {"name": "Bicada", "power": 10},
-                {"name": "Calçada", "power": 15},
-                {"name": "Ataque Especial", "power": 15},
-                {"name": "Aumentar ataque", "power": 0}
+                {"name": "Bicada", "power": 5},
+                {"name": "Calçada", "power": 10},
+                {"name": "Ataque Especial", "power": 10},
+                {"name": "Aumentar Ataque", "power": 0}
             ]
         elif name == "Galo de Tenis":
             self.attacks = [
-                {"name": "Bicada", "power": 10},
-                {"name": "Chute", "power": 15},
-                {"name": "Ataque Especial", "power": 15},
-                {"name": "Aumentar ataque", "power": 0}
+                {"name": "Bicada", "power": 5},
+                {"name": "Chute", "power": 10},
+                {"name": "Ataque Especial", "power": 10},
+                {"name": "Aumentar Ataque", "power": 0}
             ]
 
 # Tela de inicio, definição padrão básica
@@ -283,6 +284,11 @@ class Game:
     def fight(self):
         clock = pygame.time.Clock()
 
+        contadorJogador = 0
+        base_de_ataqueJogador = 1
+        contadorOponente = 0
+        base_de_ataqueOponente = 1
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -309,15 +315,28 @@ class Game:
                     else:
                         attack_modifier = 1
 
+                    if self.selected_attack['name'] == "Aumentar Ataque":
+                        if contadorJogador < 2:
+                            base_de_ataqueJogador = base_de_ataqueJogador + 0.5
+                            contadorJogador = contadorJogador + 1
+                            draw_text(screen, f"Você aumentou seu dano base para " +
+                                      str(float(base_de_ataqueJogador)), 50, 190)
+                        else:
+                            draw_text(
+                                screen, "Você já aumentou o máximo de vezes o aumento de ataque", 50, 190)
+
+                    else:
+                        base_de_ataqueJogador = base_de_ataqueJogador
+
                     terreno_modifier = terrenos[terreno_escolhido][self.player.galo.type]
 
                     draw_text(screen, f"Você causou " + str(int(
-                        self.selected_attack['power'] * attack_modifier * terreno_modifier)) + " de dano", 50, 150)
+                        self.selected_attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueJogador)) + " de dano", 50, 150)
                     pygame.display.update()
                     pygame.time.delay(2000)
 
                     self.opponent.galo.hp -= int(
-                        self.selected_attack['power'] * attack_modifier * terreno_modifier)
+                        self.selected_attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueJogador)
 
                     if self.opponent.galo.hp <= 0:
                         self.opponent.galo.hp = 0
@@ -364,6 +383,13 @@ class Game:
                     attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
                 else:
                     attack_modifier = 1
+
+                if opponent_attack['name'] == "Aumentar Ataque":
+                    if contadorOponente < 2:
+                        base_de_ataqueOponente = base_de_ataqueOponente + 0.5
+                        contadorOponente = contadorOponente + 1
+                else:
+                    base_de_ataqueOponente = base_de_ataqueOponente
 
                 terreno_modifier = terrenos[terreno_escolhido][self.opponent.galo.type]
 

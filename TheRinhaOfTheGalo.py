@@ -28,7 +28,8 @@ fundos = [
 ]
 
 terreno_escolhido = random.choice(list(terrenos.keys()))
-fundo = fundos[list(terrenos.keys()).index(terreno_escolhido)]
+fundoGrande = fundos[list(terrenos.keys()).index(terreno_escolhido)]
+fundo = pygame.transform.scale(fundoGrande, (720, 640))
 
 
 class Galo:
@@ -115,10 +116,10 @@ def draw_health_bars(screen, player_galo, opponent_galo):
                      (50, 550, int(200 * health_percentage), 20))
 
     # Barra de vida do oponente
-    draw_grande(screen, str(opponent_galo.hp), 570, 250)
-    pygame.draw.rect(screen, (255, 0, 0), (490, 220, 200, 20))
+    draw_grande(screen, str(opponent_galo.hp), 570, 590)
+    pygame.draw.rect(screen, (255, 0, 0), (490, 550, 200, 20))
     health_percentage = opponent_galo.hp / 100
-    pygame.draw.rect(screen, (0, 255, 0), (490, 220,
+    pygame.draw.rect(screen, (0, 255, 0), (490, 550,
                      int(200 * health_percentage), 20))
 
 # Função de atualizar as barras de vida
@@ -263,7 +264,7 @@ class Game:
             screen.blit(fundo, (0, 0))
             draw_text(screen, f"{self.player.galo.name} ataca:", 50, 50)
             draw_galo(screen, self.player.galo, 50, 320, 200)
-            draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
+            draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
             draw_health_bars(screen, self.player.galo, self.opponent.galo)
 
             # exibe os ataques disponíveis
@@ -299,7 +300,7 @@ class Game:
             if self.player_turn:
                 draw_text(screen, "Sua vez de atacar", 50, 50)
                 draw_galo(screen, self.player.galo, 50, 320, 200)
-                draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
+                draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)
 
                 # exibe os ataques disponíveis
@@ -348,7 +349,7 @@ class Game:
                             screen, f"{self.opponent.galo.name} desmaiou e saiu de combate", 200, 50)
                         draw_galo(screen, self.player.galo, 50, 320, 200)
                         draw_galooponnent(
-                            screen, self.opponent.galo, 500, 20, 200)
+                            screen, self.opponent.galo, 500, 320, 200)
                         draw_health_bars(
                             screen, self.player.galo, self.opponent.galo)
                         draw_health_bars(
@@ -371,7 +372,7 @@ class Game:
                 pygame.display.update()
                 draw_text(screen, "Vez do oponente atacar", 50, 50)
                 draw_galo(screen, self.player.galo, 50, 320, 200)
-                draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
+                draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
                 draw_health_bars(screen, self.player.galo, self.opponent.galo)
                 pygame.display.update()
                 pygame.time.delay(3000)
@@ -449,7 +450,8 @@ class Game:
                     draw_text(
                         screen, f"{self.player.galo.name} desmaiou e saiu de combate", 50, 200)
                     draw_galo(screen, self.player.galo, 50, 320, 200)
-                    draw_galooponnent(screen, self.opponent.galo, 500, 20, 200)
+                    draw_galooponnent(
+                        screen, self.opponent.galo, 500, 320, 200)
                     draw_health_bars(screen, self.player.galo,
                                      self.opponent.galo)
                     pygame.display.update()

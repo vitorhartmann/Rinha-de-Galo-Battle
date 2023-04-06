@@ -8,6 +8,14 @@ font = pygame.font.SysFont("Arial", 30)
 Pequena = pygame.font.SysFont("Arial", 15)
 Grande = pygame.font.SysFont("Verdana", 20)
 
+pygame.mixer.init()
+Derrota = pygame.mixer.Sound('Sons/Derrota.mp3')
+Vitoria = pygame.mixer.Sound('Sons/Vitoria.mp3')
+EntradaJogador = pygame.mixer.Sound('Sons/Jogador.mp3')
+EntradaOponente = pygame.mixer.Sound('Sons/Oponente.mp3')
+AtaqueJogador = pygame.mixer.Sound('Sons/AtaqueJogador.mp3')
+AtaqueOponente = pygame.mixer.Sound('Sons/AtaqueOponente.mp3')
+
 pygame.init()
 width, height = 720, 640
 screen = pygame.display.set_mode((width, height))
@@ -265,9 +273,11 @@ class Game:
         pygame.display.update()
         screen.blit(background, (0, 0))
         draw_text(screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
+        EntradaJogador.play()
         draw_galo(screen, self.player.galo, 50, 320, 200)
         pygame.display.update()
-        pygame.time.delay(2000)
+        pygame.time.delay(3000)
+        
 
     def animacaoentradaoponente(self):
         draw_text(screen, "Oponente Escolhendo.", 200, 250)
@@ -288,9 +298,10 @@ class Game:
         draw_text(screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
         pygame.display.update()
         pygame.time.delay(2000)
+        EntradaOponente.play()
         draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
         pygame.display.update()
-        pygame.time.delay(2000)
+        pygame.time.delay(5000)
 
     def select_attack(self):
 
@@ -349,6 +360,7 @@ class Game:
                 else:
                     draw_grande(
                         screen, f"Você usou {self.selected_attack['name']}", 50, 100)
+                    AtaqueJogador.play()
                     if self.selected_attack['name'] == "Ataque Especial":
                         attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
 
@@ -459,7 +471,7 @@ class Game:
 
                 draw_grande(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
-
+                AtaqueOponente.play()
                 if opponent_attack['name'] == "Ataque Especial":
                     attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
                 else:
@@ -534,9 +546,7 @@ def main():
     game.opponent = game.select_opponent()
     game.entradaoponente = game.animacaoentradaoponente()
 
-    pygame.mixer.init()
-    Derrota = pygame.mixer.Sound('Sons/Derrota.mp3')
-    Vitoria = pygame.mixer.Sound('Sons/Vitoria.mp3')
+    
 
     # Loop principal do jogo
     while True:
@@ -547,14 +557,12 @@ def main():
         if game.player.galo.hp <= 0:
             draw_text_centered(screen, "Você Perdeu!")
             Derrota.play()
-            Derrota.stop()
             pygame.display.update()
             pygame.time.wait(10000)
             break
         elif game.opponent.galo.hp <= 0:
             draw_text_centered(screen, "Você Ganhou!")
             Vitoria.play()
-            Vitoria.stop()
             pygame.display.update()
             pygame.time.wait(5000)
             break

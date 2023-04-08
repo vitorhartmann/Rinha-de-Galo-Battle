@@ -8,6 +8,9 @@ font = pygame.font.SysFont("Arial", 30)
 Pequena = pygame.font.SysFont("Arial", 15)
 Grande = pygame.font.SysFont("Verdana", 20)
 
+
+
+# De onde vem os sons utilizados
 pygame.mixer.init()
 Derrota = pygame.mixer.Sound('Sons/Derrota.mp3')
 Vitoria = pygame.mixer.Sound('Sons/Vitoria.mp3')
@@ -18,6 +21,10 @@ AtaqueOponente = pygame.mixer.Sound('Sons/AtaqueOponente.mp3')
 GaloDeArma = pygame.mixer.Sound('Sons/GaloDeArma.mp3')
 GaloDeCalca = pygame.mixer.Sound('Sons/GaloDeCalca.mp3')
 GaloDeTenis = pygame.mixer.Sound('Sons/GaloDeTenis.mp3')
+Bicada = pygame.mixer.Sound('Sons/Bicada.mp3')
+Tiro = pygame.mixer.Sound('Sons/Tiro.mp3')
+Calcada = pygame.mixer.Sound('Sons/Calcada.mp3')
+Chute = pygame.mixer.Sound('Sons/Chute.mp3')
 
 pygame.init()
 width, height = 720, 640
@@ -372,7 +379,16 @@ class Game:
                 else:
                     draw_grande(
                         screen, f"Você usou {self.selected_attack['name']}", 50, 100)
-                    AtaqueJogador.play()
+                    if self.selected_attack['name'] == "Bicada":
+                        Bicada.play()
+                    if self.selected_attack['name'] == "Tiro":
+                        Tiro.play()
+                    if self.selected_attack['name'] == "Calçada":
+                        Calcada.play()
+                    if self.selected_attack['name'] == "Chute":
+                        Chute.play()
+
+                    
                     if self.selected_attack['name'] == "Ataque Especial":
                         attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
 
@@ -483,7 +499,15 @@ class Game:
 
                 draw_grande(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
-                AtaqueOponente.play()
+                if opponent_attack['name'] == "Bicada":
+                    Bicada.play()
+                if opponent_attack['name'] == "Tiro":
+                    Tiro.play()
+                if opponent_attack['name'] == "Calçada":
+                    Calcada.play()
+                if opponent_attack['name'] == "Chute":
+                    Chute.play()
+                
                 if opponent_attack['name'] == "Ataque Especial":
                     attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
                 else:

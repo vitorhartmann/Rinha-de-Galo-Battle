@@ -15,6 +15,9 @@ EntradaJogador = pygame.mixer.Sound('Sons/Jogador.mp3')
 EntradaOponente = pygame.mixer.Sound('Sons/Oponente.mp3')
 AtaqueJogador = pygame.mixer.Sound('Sons/AtaqueJogador.mp3')
 AtaqueOponente = pygame.mixer.Sound('Sons/AtaqueOponente.mp3')
+GaloDeArma = pygame.mixer.Sound('Sons/GaloDeArma.mp3')
+GaloDeCalca = pygame.mixer.Sound('Sons/GaloDeCalca.mp3')
+GaloDeTenis = pygame.mixer.Sound('Sons/GaloDeTenis.mp3')
 
 pygame.init()
 width, height = 720, 640
@@ -272,7 +275,12 @@ class Game:
         screen.blit(background, (0, 0))
         draw_text(
             screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
-        EntradaJogador.play()
+        if self.player.galo.name == "Galo de Arma":
+            GaloDeArma.play()
+        if self.player.galo.name == "Galo de Calca":
+            GaloDeCalca.play()
+        if self.player.galo.name == "Galo de Tenis":
+            GaloDeTenis.play()
         draw_galo(screen, self.player.galo, 50, 320, 200)
         pygame.display.update()
         pygame.time.delay(3000)
@@ -297,7 +305,12 @@ class Game:
             screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
         pygame.display.update()
         pygame.time.delay(2000)
-        EntradaOponente.play()
+        if self.opponent.galo.name == "Galo de Arma":
+            GaloDeArma.play()
+        if self.opponent.galo.name == "Galo de Calca":
+            GaloDeCalca.play()
+        if self.opponent.galo.name == "Galo de Tenis":
+            GaloDeTenis.play()
         draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
         pygame.display.update()
         pygame.time.delay(5000)

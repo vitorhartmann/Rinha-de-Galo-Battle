@@ -367,6 +367,10 @@ class Game:
             screen.blit(fundo, (0, 0))
 
             if self.player_turn:
+                Bicada.stop()
+                Tiro.stop()
+                Calcada.stop()
+                Chute.stop()
                 draw_grande(screen, "Sua vez de atacar", 50, 50)
                 draw_galo(screen, self.player.galo, 50, 320, 200)
                 draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
@@ -449,6 +453,10 @@ class Game:
 
             else:
                 pygame.display.update()
+                Bicada.stop()
+                Tiro.stop()
+                Calcada.stop()
+                Chute.stop()
                 draw_grande(screen, "Vez do oponente atacar", 50, 50)
                 draw_galo(screen, self.player.galo, 50, 320, 200)
                 draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)

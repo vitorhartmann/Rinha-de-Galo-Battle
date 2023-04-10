@@ -404,7 +404,7 @@ class Game:
                             base_de_ataqueJogador = base_de_ataqueJogador + 0.5
                             contadorJogador = contadorJogador + 1
                             draw_grande(screen, f"Você aumentou seu dano base para " +
-                                        str(float(base_de_ataqueJogador)), 50, 190)
+                                        str(float(base_de_ataqueJogador)) + "X", 50, 190)
                         else:
                             draw_grande(
                                 screen, "Você já aumentou o máximo de vezes o aumento de ataque", 50, 190)

@@ -59,6 +59,8 @@ class Galo:
         self.name = name
         self.type = type
         self.hp = hp
+        self.contadorAtaqueEspecial = 0
+        self.contadorAtaqueEspecialOponente = 0
         self.attacks = [
             {"name": "Ataque 1", "power": 10},
             {"name": "Ataque 2", "power": 20},
@@ -358,6 +360,7 @@ class Game:
         base_de_ataqueJogador = 1
         contadorOponente = 0
         base_de_ataqueOponente = 1
+        contadorAtaqueEspecialJogador = 0
 
         while True:
             for event in pygame.event.get():
@@ -394,10 +397,21 @@ class Game:
 
                     
                     if self.selected_attack['name'] == "Ataque Especial":
-                        attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
+                        if contadorAtaqueEspecialJogador < 2:
+                            contadorAtaqueEspecialJogador = contadorAtaqueEspecialJogador + 1
+                            attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
+                        else:
+                            draw_grande(screen, "Você já usou o ataque especial duas vezes", 50, 190)
+                            pygame.display.update()
+                            pygame.time.delay(2000)
+                            self.attack_selected = False
+                            attack_modifier = 0
+                            
+                        
 
                     else:
                         attack_modifier = 1
+
 
                     if self.selected_attack['name'] == "Aumentar Ataque":
                         if contadorJogador < 2:
@@ -408,6 +422,7 @@ class Game:
                         else:
                             draw_grande(
                                 screen, "Você já aumentou o máximo de vezes o aumento de ataque", 50, 190)
+                            self.attack_selected = False
 
                     else:
                         base_de_ataqueJogador = base_de_ataqueJogador

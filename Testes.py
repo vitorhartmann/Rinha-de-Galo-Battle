@@ -35,10 +35,11 @@ background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
 global terrenos
 global fundo
 
+#Modificadores de dano referente aos terrenos
 terrenos = {
-    "Favela": {"Arma": 1.1, "Calca": 0.9, "Tenis": 0.9},
-    "Loja de Roupas": {"Arma": 0.9, "Calca": 1.1, "Tenis": 0.9},
-    "Quadra de Esportes": {"Arma": 0.9, "Calca": 0.9, "Tenis": 1.1}
+    "Favela": {"Arma": 1.2, "Calca": 0.9, "Tenis": 0.9},
+    "Loja de Roupas": {"Arma": 0.9, "Calca": 1.2, "Tenis": 0.9},
+    "Quadra de Esportes": {"Arma": 0.9, "Calca": 0.9, "Tenis": 1.2}
 }
 
 fundos = [
@@ -172,9 +173,9 @@ class Game:
 
     # Modificadores de dano dos galos - Valores teste, são utilizados para multiplicar o dano referente à vantagem de tipo
     type_chart = {
-        "Arma": {"Arma": 1, "Calca": 0.8, "Tenis": 1.25},
-        "Calca": {"Arma": 1.25, "Calca": 1, "Tenis": 0.8},
-        "Tenis": {"Arma": 0.8, "Calca": 1.25, "Tenis": 1}
+        "Arma": {"Arma": 1, "Calca": 0.9, "Tenis": 1.1},
+        "Calca": {"Arma": 1.1, "Calca": 1, "Tenis": 0.9},
+        "Tenis": {"Arma": 0.9, "Calca": 1.1, "Tenis": 1}
     }
 
     # Iniciando o jogador, e seus atributos
@@ -214,7 +215,7 @@ class Game:
                 draw_text(screen, galo1.name, 120, 210)
                 draw_text(screen, f"Bom contra: {galo3.name}", 200, 280)
                 draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Favela (1.1X)", 200, 340)
+                draw_text(screen, f"Favela (1.2X)", 200, 340)
                 draw_text(screen, f"Loja (0.9X)", 200, 370)
                 draw_text(screen, f"Quadra (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
@@ -225,7 +226,7 @@ class Game:
                 draw_text(screen, galo2.name, 270, 210)
                 draw_text(screen, f"Bom contra: {galo1.name}", 200, 280)
                 draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Loja (1.1X)", 200, 340)
+                draw_text(screen, f"Loja (1.2X)", 200, 340)
                 draw_text(screen, f"Quadra (0.9X)", 200, 370)
                 draw_text(screen, f"Favela (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
@@ -236,7 +237,7 @@ class Game:
                 draw_text(screen, galo3.name, 420, 210)
                 draw_text(screen, f"Bom contra: {galo2.name}", 200, 280)
                 draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Quadra (1.1X)", 200, 340)
+                draw_text(screen, f"Quadra (1.2X)", 200, 340)
                 draw_text(screen, f"Favela (0.9X)", 200, 370)
                 draw_text(screen, f"Loja (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:

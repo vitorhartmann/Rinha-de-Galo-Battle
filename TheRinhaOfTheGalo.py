@@ -68,7 +68,7 @@ class Galo:
             {"name": "Ataque 3", "power": 30},
             {"name": "Ataque 4", "power": 40}
         ]
-
+        #Ataques do galo de arma
         if name == "Galo de Arma":
             self.attacks = [
                 {"name": "Bicada", "power": 5},
@@ -76,6 +76,7 @@ class Galo:
                 {"name": "Ataque Especial", "power": 10},
                 {"name": "Aumentar Ataque", "power": 0}
             ]
+            #Ataques galo de calca
         elif name == "Galo de Calca":
             self.attacks = [
                 {"name": "Bicada", "power": 5},
@@ -83,6 +84,7 @@ class Galo:
                 {"name": "Ataque Especial", "power": 10},
                 {"name": "Aumentar Ataque", "power": 0}
             ]
+            # Ataques galo de tenis
         elif name == "Galo de Tenis":
             self.attacks = [
                 {"name": "Bicada", "power": 5},
@@ -484,6 +486,9 @@ class Game:
                     best_attack = None
                     max_damage = 0
                     use_attack_modifier = False
+                    if 'contadorAtaqueEspecialOponente' not in locals():
+                        contadorAtaqueEspecialOponente = 0
+
 
                     # Priorize o uso do ataque "Aumentar Ataque" caso o contador ainda não tenha atingido 2 ou o HP do oponente seja maior que 65
                     if opponent_galo.hp > 65 and contadorOponente < 2:
@@ -500,15 +505,21 @@ class Game:
                                 break
 
                         if attack['name'] == "Ataque Especial":
-                            attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
+                            if contadorAtaqueEspecialJogador < 2:
+                                contadorAtaqueEspecialOponente = contadorAtaqueEspecialOponente + 1
+                                attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
+                            else:
+                                attack_modifier = 0
                         else:
-                            attack_modifier = 1
+
+                            attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
 
                         terreno_modifier = terrenos[terreno_escolhido][opponent_galo.type]
 
                         damage = int(
                             attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueOponente)
 
+                        print(damage)
                         if damage > max_damage:
                             best_attack = attack
                             max_damage = damage

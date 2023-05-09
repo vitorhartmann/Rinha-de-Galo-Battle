@@ -175,9 +175,9 @@ class Game:
 
     # Modificadores de dano dos galos - Valores teste, são utilizados para multiplicar o dano referente à vantagem de tipo
     type_chart = {
-        "Arma": {"Arma": 1, "Calca": 0.9, "Tenis": 1.1},
-        "Calca": {"Arma": 1.1, "Calca": 1, "Tenis": 0.9},
-        "Tenis": {"Arma": 0.9, "Calca": 1.1, "Tenis": 1}
+        "Arma": {"Arma": 1, "Calca": 0.9, "Tenis": 1.15},
+        "Calca": {"Arma": 1.15, "Calca": 1, "Tenis": 0.9},
+        "Tenis": {"Arma": 0.9, "Calca": 1.15, "Tenis": 1}
     }
 
     # Iniciando o jogador, e seus atributos
@@ -398,6 +398,8 @@ class Game:
                     if self.selected_attack['name'] == "Chute":
                         Chute.play()
 
+
+
                     
                     if self.selected_attack['name'] == "Ataque Especial":
                         if contadorAtaqueEspecialJogador < 2:
@@ -432,10 +434,22 @@ class Game:
 
                     terreno_modifier = terrenos[terreno_escolhido][self.player.galo.type]
 
+                    if self.selected_attack['name'] == "Tiro":
+                        attack_modifier = 1
+                        terreno_modifier = 1
+                    if self.selected_attack['name'] == "Calçada":
+                        attack_modifier = 1
+                        terreno_modifier = 1
+                    if self.selected_attack['name'] == "Chute":
+                        attack_modifier = 1
+                        terreno_modifier = 1
+                        
+
                     draw_grande(screen, f"Você causou " + str(int(
                         self.selected_attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueJogador)) + " de dano", 50, 150)
                     pygame.display.update()
                     pygame.time.delay(2000)
+
 
                     self.opponent.galo.hp -= int(
                         self.selected_attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueJogador)
@@ -516,9 +530,20 @@ class Game:
 
                         terreno_modifier = terrenos[terreno_escolhido][opponent_galo.type]
 
+                        if attack['name'] == "Tiro":
+                            attack_modifier = 1
+                            terreno_modifier = 1
+                        if attack['name'] == "Calçada":
+                            attack_modifier = 1
+                            terreno_modifier = 1
+                        if attack['name'] == "Chute":
+                            attack_modifier = 1
+                            terreno_modifier = 1
+
                         damage = int(
                             attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueOponente)
 
+                        print(attack['name'])
                         print(damage)
                         if damage > max_damage:
                             best_attack = attack

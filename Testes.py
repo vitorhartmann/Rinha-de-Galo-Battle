@@ -8,6 +8,24 @@ font = pygame.font.SysFont("Arial", 30)
 Pequena = pygame.font.SysFont("Arial", 15)
 Grande = pygame.font.SysFont("Verdana", 20)
 
+
+
+# De onde vem os sons utilizados
+pygame.mixer.init()
+Derrota = pygame.mixer.Sound('Sons/Derrota.mp3')
+Vitoria = pygame.mixer.Sound('Sons/Vitoria.mp3')
+EntradaJogador = pygame.mixer.Sound('Sons/Jogador.mp3')
+EntradaOponente = pygame.mixer.Sound('Sons/Oponente.mp3')
+AtaqueJogador = pygame.mixer.Sound('Sons/AtaqueJogador.mp3')
+AtaqueOponente = pygame.mixer.Sound('Sons/AtaqueOponente.mp3')
+GaloDeArma = pygame.mixer.Sound('Sons/GaloDeArma.mp3')
+GaloDeCalca = pygame.mixer.Sound('Sons/GaloDeCalca.mp3')
+GaloDeTenis = pygame.mixer.Sound('Sons/GaloDeTenis.mp3')
+Bicada = pygame.mixer.Sound('Sons/Bicada.mp3')
+Tiro = pygame.mixer.Sound('Sons/Tiro.mp3')
+Calcada = pygame.mixer.Sound('Sons/Calcada.mp3')
+Chute = pygame.mixer.Sound('Sons/Chute.mp3')
+
 pygame.init()
 width, height = 720, 640
 screen = pygame.display.set_mode((width, height))
@@ -17,10 +35,11 @@ background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
 global terrenos
 global fundo
 
+#Modificadores de dano referente aos terrenos
 terrenos = {
-    "Favela": {"Arma": 1.1, "Calca": 0.9, "Tenis": 0.9},
-    "Loja de Roupas": {"Arma": 0.9, "Calca": 1.1, "Tenis": 0.9},
-    "Quadra de Esportes": {"Arma": 0.9, "Calca": 0.9, "Tenis": 1.1}
+    "Favela": {"Arma": 1.2, "Calca": 0.9, "Tenis": 0.9},
+    "Loja de Roupas": {"Arma": 0.9, "Calca": 1.2, "Tenis": 0.9},
+    "Quadra de Esportes": {"Arma": 0.9, "Calca": 0.9, "Tenis": 1.2}
 }
 
 fundos = [
@@ -41,13 +60,15 @@ class Galo:
         self.name = name
         self.type = type
         self.hp = hp
+        self.contadorAtaqueEspecial = 0
+        self.contadorAtaqueEspecialOponente = 0
         self.attacks = [
             {"name": "Ataque 1", "power": 10},
             {"name": "Ataque 2", "power": 20},
             {"name": "Ataque 3", "power": 30},
             {"name": "Ataque 4", "power": 40}
         ]
-
+        #Ataques do galo de arma
         if name == "Galo de Arma":
             self.attacks = [
                 {"name": "Bicada", "power": 5},
@@ -55,6 +76,7 @@ class Galo:
                 {"name": "Ataque Especial", "power": 10},
                 {"name": "Aumentar Ataque", "power": 0}
             ]
+            #Ataques galo de calca
         elif name == "Galo de Calca":
             self.attacks = [
                 {"name": "Bicada", "power": 5},
@@ -62,6 +84,7 @@ class Galo:
                 {"name": "Ataque Especial", "power": 10},
                 {"name": "Aumentar Ataque", "power": 0}
             ]
+            # Ataques galo de tenis
         elif name == "Galo de Tenis":
             self.attacks = [
                 {"name": "Bicada", "power": 5},
@@ -152,9 +175,9 @@ class Game:
 
     # Modificadores de dano dos galos - Valores teste, são utilizados para multiplicar o dano referente à vantagem de tipo
     type_chart = {
-        "Arma": {"Arma": 1, "Calca": 0.8, "Tenis": 1.25},
-        "Calca": {"Arma": 1.25, "Calca": 1, "Tenis": 0.8},
-        "Tenis": {"Arma": 0.8, "Calca": 1.25, "Tenis": 1}
+        "Arma": {"Arma": 1, "Calca": 0.9, "Tenis": 1.1},
+        "Calca": {"Arma": 1.1, "Calca": 1, "Tenis": 0.9},
+        "Tenis": {"Arma": 0.9, "Calca": 1.1, "Tenis": 1}
     }
 
     # Iniciando o jogador, e seus atributos
@@ -194,7 +217,7 @@ class Game:
                 draw_text(screen, galo1.name, 120, 210)
                 draw_text(screen, f"Bom contra: {galo3.name}", 200, 280)
                 draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Favela (1.1X)", 200, 340)
+                draw_text(screen, f"Favela (1.2X)", 200, 340)
                 draw_text(screen, f"Loja (0.9X)", 200, 370)
                 draw_text(screen, f"Quadra (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
@@ -205,7 +228,7 @@ class Game:
                 draw_text(screen, galo2.name, 270, 210)
                 draw_text(screen, f"Bom contra: {galo1.name}", 200, 280)
                 draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Loja (1.1X)", 200, 340)
+                draw_text(screen, f"Loja (1.2X)", 200, 340)
                 draw_text(screen, f"Quadra (0.9X)", 200, 370)
                 draw_text(screen, f"Favela (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
@@ -216,14 +239,12 @@ class Game:
                 draw_text(screen, galo3.name, 420, 210)
                 draw_text(screen, f"Bom contra: {galo2.name}", 200, 280)
                 draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Quadra (1.1X)", 200, 340)
+                draw_text(screen, f"Quadra (1.2X)", 200, 340)
                 draw_text(screen, f"Favela (0.9X)", 200, 370)
                 draw_text(screen, f"Loja (1.0X)", 200, 400)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo3
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
-
-       
 
             pygame.display.update()
         return Player(selected_galo)
@@ -259,15 +280,22 @@ class Game:
                     opponent_galo = g
 
         return Player(opponent_galo)
-    
+
     def animacaoentradajogador(self):
         # "Inteligência artificial" escolhendo o galo, enquanto você manda seu galo pra combate
         pygame.display.update()
         screen.blit(background, (0, 0))
-        draw_text(screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
+        draw_text(
+            screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
+        if self.player.galo.name == "Galo de Arma":
+            GaloDeArma.play()
+        if self.player.galo.name == "Galo de Calca":
+            GaloDeCalca.play()
+        if self.player.galo.name == "Galo de Tenis":
+            GaloDeTenis.play()
         draw_galo(screen, self.player.galo, 50, 320, 200)
         pygame.display.update()
-        pygame.time.delay(2000)
+        pygame.time.delay(3000)
 
     def animacaoentradaoponente(self):
         draw_text(screen, "Oponente Escolhendo.", 200, 250)
@@ -285,12 +313,19 @@ class Game:
         pygame.time.delay(2000)
         screen.blit(background, (0, 0))
         draw_galo(screen, self.player.galo, 50, 320, 200)
-        draw_text(screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
+        draw_text(
+            screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
         pygame.display.update()
         pygame.time.delay(2000)
+        if self.opponent.galo.name == "Galo de Arma":
+            GaloDeArma.play()
+        if self.opponent.galo.name == "Galo de Calca":
+            GaloDeCalca.play()
+        if self.opponent.galo.name == "Galo de Tenis":
+            GaloDeTenis.play()
         draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
         pygame.display.update()
-        pygame.time.delay(2000)
+        pygame.time.delay(5000)
 
     def select_attack(self):
 
@@ -328,6 +363,7 @@ class Game:
         base_de_ataqueJogador = 1
         contadorOponente = 0
         base_de_ataqueOponente = 1
+        contadorAtaqueEspecialJogador = 0
 
         while True:
             for event in pygame.event.get():
@@ -337,6 +373,10 @@ class Game:
             screen.blit(fundo, (0, 0))
 
             if self.player_turn:
+                Bicada.stop()
+                Tiro.stop()
+                Calcada.stop()
+                Chute.stop()
                 draw_grande(screen, "Sua vez de atacar", 50, 50)
                 draw_galo(screen, self.player.galo, 50, 320, 200)
                 draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
@@ -349,21 +389,43 @@ class Game:
                 else:
                     draw_grande(
                         screen, f"Você usou {self.selected_attack['name']}", 50, 100)
+                    if self.selected_attack['name'] == "Bicada":
+                        Bicada.play()
+                    if self.selected_attack['name'] == "Tiro":
+                        Tiro.play()
+                    if self.selected_attack['name'] == "Calçada":
+                        Calcada.play()
+                    if self.selected_attack['name'] == "Chute":
+                        Chute.play()
+
+                    
                     if self.selected_attack['name'] == "Ataque Especial":
-                        attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
+                        if contadorAtaqueEspecialJogador < 2:
+                            contadorAtaqueEspecialJogador = contadorAtaqueEspecialJogador + 1
+                            attack_modifier = Game.type_chart[self.player.galo.type][self.opponent.galo.type]
+                        else:
+                            draw_grande(screen, "Você já usou o ataque especial duas vezes", 50, 190)
+                            pygame.display.update()
+                            pygame.time.delay(2000)
+                            self.attack_selected = False
+                            attack_modifier = 0
+                            
+                        
 
                     else:
                         attack_modifier = 1
+
 
                     if self.selected_attack['name'] == "Aumentar Ataque":
                         if contadorJogador < 2:
                             base_de_ataqueJogador = base_de_ataqueJogador + 0.5
                             contadorJogador = contadorJogador + 1
                             draw_grande(screen, f"Você aumentou seu dano base para " +
-                                      str(float(base_de_ataqueJogador)), 50, 190)
+                                        str(float(base_de_ataqueJogador)) + "X", 50, 190)
                         else:
                             draw_grande(
                                 screen, "Você já aumentou o máximo de vezes o aumento de ataque", 50, 190)
+                            self.attack_selected = False
 
                     else:
                         base_de_ataqueJogador = base_de_ataqueJogador
@@ -384,7 +446,7 @@ class Game:
                         screen.fill((0, 0, 0))
                         screen.blit(background, (0, 0))
                         screen.blit(fundo, (0, 0))
-                        draw_text(
+                        draw_grande(
                             screen, f"{self.opponent.galo.name} desmaiou e saiu de combate", 200, 50)
                         draw_galo(screen, self.player.galo, 50, 320, 200)
                         draw_galooponnent(
@@ -409,6 +471,10 @@ class Game:
 
             else:
                 pygame.display.update()
+                Bicada.stop()
+                Tiro.stop()
+                Calcada.stop()
+                Chute.stop()
                 draw_grande(screen, "Vez do oponente atacar", 50, 50)
                 draw_galo(screen, self.player.galo, 50, 320, 200)
                 draw_galooponnent(screen, self.opponent.galo, 500, 320, 200)
@@ -420,6 +486,9 @@ class Game:
                     best_attack = None
                     max_damage = 0
                     use_attack_modifier = False
+                    if 'contadorAtaqueEspecialOponente' not in locals():
+                        contadorAtaqueEspecialOponente = 0
+
 
                     # Priorize o uso do ataque "Aumentar Ataque" caso o contador ainda não tenha atingido 2 ou o HP do oponente seja maior que 65
                     if opponent_galo.hp > 65 and contadorOponente < 2:
@@ -436,15 +505,21 @@ class Game:
                                 break
 
                         if attack['name'] == "Ataque Especial":
-                            attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
+                            if contadorAtaqueEspecialJogador < 2:
+                                contadorAtaqueEspecialOponente = contadorAtaqueEspecialOponente + 1
+                                attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
+                            else:
+                                attack_modifier = 0
                         else:
-                            attack_modifier = 1
+
+                            attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
 
                         terreno_modifier = terrenos[terreno_escolhido][opponent_galo.type]
 
                         damage = int(
                             attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueOponente)
 
+                        print(damage)
                         if damage > max_damage:
                             best_attack = attack
                             max_damage = damage
@@ -459,7 +534,15 @@ class Game:
 
                 draw_grande(
                     screen, f"O oponente usou {opponent_attack['name']}", 50, 100)
-
+                if opponent_attack['name'] == "Bicada":
+                    Bicada.play()
+                if opponent_attack['name'] == "Tiro":
+                    Tiro.play()
+                if opponent_attack['name'] == "Calçada":
+                    Calcada.play()
+                if opponent_attack['name'] == "Chute":
+                    Chute.play()
+                
                 if opponent_attack['name'] == "Ataque Especial":
                     attack_modifier = Game.type_chart[self.opponent.galo.type][self.player.galo.type]
                 else:
@@ -486,7 +569,7 @@ class Game:
                     screen.fill((0, 0, 0))
                     screen.blit(background, (0, 0))
                     screen.blit(fundo, (0, 0))
-                    draw_text(
+                    draw_grande(
                         screen, f"{self.player.galo.name} desmaiou e saiu de combate", 50, 200)
                     draw_galo(screen, self.player.galo, 50, 320, 200)
                     draw_galooponnent(
@@ -542,11 +625,13 @@ def main():
         # Verifica se o jogador ou o oponente zerou a vida
         if game.player.galo.hp <= 0:
             draw_text_centered(screen, "Você Perdeu!")
+            Derrota.play()
             pygame.display.update()
             pygame.time.wait(10000)
             break
         elif game.opponent.galo.hp <= 0:
             draw_text_centered(screen, "Você Ganhou!")
+            Vitoria.play()
             pygame.display.update()
             pygame.time.wait(5000)
             break

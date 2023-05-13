@@ -33,6 +33,8 @@ width, height = 800, 800
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Rinha de Galo")
 background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
+MenuPrincipal = pygame.image.load(f"Imagens/RinhaOfTheGalo.png")
+MenuFundo = pygame.transform.scale(MenuPrincipal, (800, 600))
 
 global terrenos
 global fundo
@@ -52,39 +54,38 @@ fundos = [
 
 terreno_escolhido = random.choice(list(terrenos.keys()))
 fundoGrande = fundos[list(terrenos.keys()).index(terreno_escolhido)]
-fundo = pygame.transform.scale(fundoGrande, (720, 640))
+fundo = pygame.transform.scale(fundoGrande, (800, 800))
 
 # Função para desenhar o botão de jogar
 
 
 def draw_play_button(screen):
+    mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
     surface = Jogar.render("Jogar", True, (255, 255, 255))
-    text_rect = surface.get_rect()
-    padding = 10  # Espaço de 10 pixels em cada lado
+    x = (screen.get_width() - surface.get_width()) // 2
+    y = (screen.get_height() - surface.get_height()) // 2 + 180
+    button_width = surface.get_width() + 20
+    button_height = surface.get_height() + 20
 
-    # Define as dimensões do retângulo branco
-    button_width = text_rect.width + 2 * padding
-    button_height = text_rect.height + 2 * padding
+    # Retângulo do botão de jogar
+    play_button_rect = pygame.Rect(x, y, button_width, button_height)
 
-    x = (screen.get_width() - button_width) // 2
-    y = (screen.get_height() - button_height) // 2 + 90
-
-    # Desenha o retângulo branco
-    button_rect = pygame.Rect(x, y, button_width, button_height)
-    pygame.draw.rect(screen, (255, 255, 255), button_rect)
-
-    # Define as dimensões do retângulo preto
-    border_width = button_width - 2
-    border_height = button_height - 2
+    # Verifica se o mouse está sobre o botão
+    if play_button_rect.collidepoint(mouse_pos):
+        # Desenha o retângulo branco
+        pygame.draw.rect(screen, (255, 255, 0), play_button_rect)
+    else:
+        # Desenha o retângulo branco
+        pygame.draw.rect(screen, (255, 255, 255), play_button_rect)
 
     # Desenha o retângulo preto
-    border_rect = pygame.Rect(x + 1, y + 1, border_width, border_height)
+    border_rect = pygame.Rect(
+        x + 1, y + 1, button_width - 2, button_height - 2)
     pygame.draw.rect(screen, (0, 0, 0), border_rect)
 
     # Posiciona o texto centralizado dentro do retângulo
-    text_x = x + padding + (button_width - 2 * padding - text_rect.width) // 2
-    text_y = y + padding + (button_height - 2 *
-                            padding - text_rect.height) // 2
+    text_x = x + 10 + (button_width - 20 - surface.get_width()) // 2
+    text_y = y + 10 + (button_height - 20 - surface.get_height()) // 2
     screen.blit(surface, (text_x, text_y))
 
 
@@ -95,7 +96,7 @@ def check_play_button(screen):
     mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
     surface = Jogar.render("Jogar", True, (255, 0, 0))
     x = (screen.get_width() - surface.get_width()) // 2
-    y = (screen.get_height() - surface.get_height()) // 2 + 90
+    y = (screen.get_height() - surface.get_height()) // 2 + 180
     # Retângulo do botão de jogar
     play_button_rect = pygame.Rect(
         x, y, surface.get_width(), surface.get_height())
@@ -311,8 +312,20 @@ class Game:
             ymodificadores = (screen.get_height() -
                               surface.get_height()) // 2 + 120
 
-            if galo1_rect.collidepoint(mouse_pos):
+            # Função para desenhar um retângulo com cor de fundo personalizada
+            def draw_custom_rect(screen, x, y, width, height, color, border_color):
+                pygame.draw.rect(screen, color, (x, y, width, height))
+                pygame.draw.rect(screen, border_color,
+                                 (x, y, width, height), 1)
 
+            # Define as cores para o retângulo externo do botão quando o mouse está sobre ele
+            highlight_color = (255, 255, 0)  # Amarelo
+            default_color = (255, 255, 255)  # Branco
+
+            if galo1_rect.collidepoint(mouse_pos):
+                draw_custom_rect(screen, 50, 100, 160, 160,
+                                 highlight_color, (0, 0, 0))
+                galo1_rect = draw_galo(screen, galo1, 50, 100, 160)
                 draw_text(screen, galo1.name, 50, 270)
                 draw_text(screen, f"Vantagem contra: {galo3.name}", 200, 320)
                 draw_text(
@@ -325,6 +338,9 @@ class Game:
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo2_rect.collidepoint(mouse_pos):
+                draw_custom_rect(screen, 300, 100, 160, 160,
+                                 highlight_color, (0, 0, 0))
+                galo2_rect = draw_galo(screen, galo2, 300, 100, 160)
                 draw_text(screen, galo2.name, 300, 270)
                 draw_text(screen, f"Vantagem contra: {galo1.name}", 200, 320)
                 draw_text(
@@ -337,6 +353,9 @@ class Game:
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo3_rect.collidepoint(mouse_pos):
+                draw_custom_rect(screen, 550, 100, 160, 160,
+                                 highlight_color, (0, 0, 0))
+                galo3_rect = draw_galo(screen, galo3, 550, 100, 160)
                 draw_text(screen, galo3.name, 550, 270)
                 draw_text(screen, f"Vantagem contra: {galo2.name}", 200, 320)
                 draw_text(
@@ -388,7 +407,7 @@ class Game:
         pygame.display.update()
         screen.blit(background, (0, 0))
         draw_text(
-            screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 50, 100)
+            screen, f"Jogador: Dê seu melhor, {self.player.galo.name}", 200, 100)
         if self.player.galo.name == "Galo de Arma":
             GaloDeArma.play()
         if self.player.galo.name == "Galo de Calca":
@@ -400,23 +419,28 @@ class Game:
         pygame.time.delay(3000)
 
     def animacaoentradaoponente(self):
-        draw_text(screen, "Oponente Escolhendo.", 200, 250)
+        textoescolhaoponente = font.render(
+            'Oponente Escolhendo', True, (255, 255, 255))
+        x = (800 - textoescolhaoponente.get_width()) // 2
+        y = 800 / 2
+
+        draw_text(screen, "Oponente Escolhendo.", x, y)
         pygame.display.update()
         pygame.time.delay(1000)
         screen.blit(background, (0, 0))
         draw_galo(screen, self.player.galo, 50, 320, 200)
-        draw_text(screen, "Oponente Escolhendo..", 200, 250)
+        draw_text(screen, "Oponente Escolhendo..", x, y)
         pygame.display.update()
         pygame.time.delay(1000)
         screen.blit(background, (0, 0))
         draw_galo(screen, self.player.galo, 50, 320, 200)
-        draw_text(screen, "Oponente Escolhendo...", 200, 250)
+        draw_text(screen, "Oponente Escolhendo...", x, y)
         pygame.display.update()
         pygame.time.delay(2000)
         screen.blit(background, (0, 0))
         draw_galo(screen, self.player.galo, 50, 320, 200)
         draw_text(
-            screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 50, 100)
+            screen, f"Oponente: Ganha a aposta, {self.opponent.galo.name}", 200, 100)
         pygame.display.update()
         pygame.time.delay(2000)
         if self.opponent.galo.name == "Galo de Arma":
@@ -733,8 +757,7 @@ def main():
     screen = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
-    draw_text_amarelo(screen, f"THE RINHA OF", 200, 330)
-    draw_text_vermelho(screen, f"THE GALO", 200, 360)
+    screen.blit(MenuFundo, (0, 0))
 
     pygame.display.update()
     pygame.time.wait(1000)

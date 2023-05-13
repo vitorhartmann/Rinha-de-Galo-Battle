@@ -7,6 +7,7 @@ pygame.font.init()
 font = pygame.font.SysFont("Arial", 30)
 Pequena = pygame.font.SysFont("Arial", 15)
 Grande = pygame.font.SysFont("Verdana", 20)
+Titulo = pygame.font.SysFont("Verdana", 40)
 
 
 
@@ -100,6 +101,20 @@ def draw_text(screen, text, x, y):
     surface = font.render(text, True, (255, 255, 255))
     screen.blit(surface, (x, y))
 
+def draw_text_vermelho(screen, text, x, y):
+    surface = Titulo.render(text, True, (255, 0, 0))
+    x = (screen.get_width() - surface.get_width()) // 2
+    y = (screen.get_height() - surface.get_height()) // 2
+    screen.blit(surface, (x, y))
+
+def draw_text_amarelo(screen, text, x, y):
+    surface = Titulo.render(text, True, (255, 255, 0))
+    x = (screen.get_width() - surface.get_width()) // 2
+    y = (screen.get_height() - surface.get_height()) // 2
+    screen.blit(surface, (x, y))
+
+
+
 
 def draw_grande(screen, text, x, y):
     # criando a superfície de texto
@@ -191,6 +206,7 @@ class Game:
 
     # Definindo o galo do jogador (tela de seleção)
     def select_galo(self):
+        
         selected_galo = None
         while selected_galo is None:
             for event in pygame.event.get():
@@ -198,50 +214,50 @@ class Game:
                     pygame.quit()
 
             screen.blit(background, (0, 0))
-            draw_text(screen, "Selecione seu Galo de Briga:", 50, 50)
+            draw_text(screen, "Selecione seu Galo de Briga:", 190, 90)
 
             # exibe as imagens dos galos disponíveis
 
             galo1 = Galo("Galo de Arma", "Arma", 100, 20)
-            galo1_rect = draw_galo(screen, galo1, 150, 100, 100)
+            galo1_rect = draw_galo(screen, galo1, 150, 150, 100)
 
             galo2 = Galo("Galo de Calca", "Calca", 100, 20)
-            galo2_rect = draw_galo(screen, galo2, 300, 100, 100)
+            galo2_rect = draw_galo(screen, galo2, 300, 150, 100)
 
             galo3 = Galo("Galo de Tenis", "Tenis", 100, 20)
-            galo3_rect = draw_galo(screen, galo3, 450, 100, 100)
+            galo3_rect = draw_galo(screen, galo3, 450, 150, 100)
 
             # verifica se o jogador clicou em algum dos galos
             mouse_pos = pygame.mouse.get_pos()
             if galo1_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo1.name, 120, 210)
-                draw_text(screen, f"Bom contra: {galo3.name}", 200, 280)
-                draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Favela (1.2X)", 200, 340)
-                draw_text(screen, f"Loja (0.9X)", 200, 370)
-                draw_text(screen, f"Quadra (1.0X)", 200, 400)
+                draw_text(screen, galo1.name, 120, 270)
+                draw_text(screen, f"Bom contra: {galo3.name}", 200, 300)
+                draw_text(screen, f"Modificador de Terreno:", 200, 330)
+                draw_text(screen, f"Favela (1.2X)", 200, 360)
+                draw_text(screen, f"Loja (0.9X)", 200, 390)
+                draw_text(screen, f"Quadra (1.0X)", 200, 420)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo1
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo2_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo2.name, 270, 210)
-                draw_text(screen, f"Bom contra: {galo1.name}", 200, 280)
-                draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Loja (1.2X)", 200, 340)
-                draw_text(screen, f"Quadra (0.9X)", 200, 370)
-                draw_text(screen, f"Favela (1.0X)", 200, 400)
+                draw_text(screen, galo2.name, 270, 270)
+                draw_text(screen, f"Bom contra: {galo1.name}", 200, 300)
+                draw_text(screen, f"Modificador de Terreno:", 200, 330)
+                draw_text(screen, f"Loja (1.2X)", 200, 360)
+                draw_text(screen, f"Quadra (0.9X)", 200, 390)
+                draw_text(screen, f"Favela (1.0X)", 200, 420)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo2
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
 
             elif galo3_rect.collidepoint(mouse_pos):
-                draw_text(screen, galo3.name, 420, 210)
-                draw_text(screen, f"Bom contra: {galo2.name}", 200, 280)
-                draw_text(screen, f"Modificador de Terreno:", 200, 310)
-                draw_text(screen, f"Quadra (1.2X)", 200, 340)
-                draw_text(screen, f"Favela (0.9X)", 200, 370)
-                draw_text(screen, f"Loja (1.0X)", 200, 400)
+                draw_text(screen, galo3.name, 420, 270)
+                draw_text(screen, f"Bom contra: {galo2.name}", 200, 300)
+                draw_text(screen, f"Modificador de Terreno:", 200, 330)
+                draw_text(screen, f"Quadra (1.2X)", 200, 360)
+                draw_text(screen, f"Favela (0.9X)", 200, 390)
+                draw_text(screen, f"Loja (1.0X)", 200, 420)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo3
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms
@@ -636,6 +652,10 @@ class Game:
 
 def main():
     pygame.init()
+    draw_text_amarelo(screen, f"THE RINHA OF", 200, 330)
+    draw_text_amarelo(screen, f"THE GALO", 200, 360)
+    pygame.display.update()
+    pygame.time.wait(3000)
     game = Game()
     game.player = game.select_galo()
     game.entradajogador = game.animacaoentradajogador()

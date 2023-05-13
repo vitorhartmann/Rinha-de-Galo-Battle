@@ -101,12 +101,141 @@ def check_play_button(screen):
     play_button_rect = pygame.Rect(
         x, y, surface.get_width(), surface.get_height())
 
+    # Verifica se o mouse está sobre o botão e o botão esquerdo do mouse foi clicado
+    if play_button_rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]:
+        return True
+
+    return False
+
+
+def draw_rules_button(screen):
+    mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
+    surface = Jogar.render("Regras", True, (255, 255, 255))
+    x = (screen.get_width() - surface.get_width()) // 2
+    y = (screen.get_height() - surface.get_height()) // 2 + 250
+    button_width = surface.get_width() + 20
+    button_height = surface.get_height() + 20
+
+    # Retângulo do botão de jogar
+    rules_button_rect = pygame.Rect(x, y, button_width, button_height)
+
     # Verifica se o mouse está sobre o botão
-    if play_button_rect.collidepoint(mouse_pos):
+    if rules_button_rect.collidepoint(mouse_pos):
+        # Desenha o retângulo branco
+        pygame.draw.rect(screen, (255, 255, 0), rules_button_rect)
+    else:
+        # Desenha o retângulo branco
+        pygame.draw.rect(screen, (255, 255, 255), rules_button_rect)
+
+    # Desenha o retângulo preto
+    border_rect = pygame.Rect(
+        x + 1, y + 1, button_width - 2, button_height - 2)
+    pygame.draw.rect(screen, (0, 0, 0), border_rect)
+
+    # Posiciona o texto centralizado dentro do retângulo
+    text_x = x + 10 + (button_width - 20 - surface.get_width()) // 2
+    text_y = y + 10 + (button_height - 20 - surface.get_height()) // 2
+    screen.blit(surface, (text_x, text_y))
+
+
+# Função para verificar se o botão de regras foi clicado
+def check_rules_button(screen):
+    mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
+    # Corrigido para (255, 255, 255)
+    surface = Jogar.render("Regras", True, (255, 255, 255))
+    x = (screen.get_width() - surface.get_width()) // 2
+    y = (screen.get_height() - surface.get_height()) // 2 + 250
+    # Retângulo do botão de jogar
+    rules_button_rect = pygame.Rect(
+        x, y, surface.get_width(), surface.get_height())
+
+    # Verifica se o mouse está sobre o botão
+    if rules_button_rect.collidepoint(mouse_pos):
         # Retorna True se o botão esquerdo do mouse foi clicado
         return pygame.mouse.get_pressed()[0]
 
     return False
+
+
+def draw_back_button(screen):
+    mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
+    surface = Jogar.render("OK", True, (255, 255, 255))
+    x = (screen.get_width() - surface.get_width()) // 2
+    y = (screen.get_height() - surface.get_height()) // 2 + 250
+    button_width = surface.get_width() + 20
+    button_height = surface.get_height() + 20
+
+    # Retângulo do botão de jogar
+    back_button_rect = pygame.Rect(x, y, button_width, button_height)
+
+    # Verifica se o mouse está sobre o botão
+    if back_button_rect.collidepoint(mouse_pos):
+        # Desenha o retângulo branco
+        pygame.draw.rect(screen, (255, 255, 0), back_button_rect)
+    else:
+        # Desenha o retângulo branco
+        pygame.draw.rect(screen, (255, 255, 255), back_button_rect)
+
+    # Desenha o retângulo preto
+    border_rect = pygame.Rect(
+        x + 1, y + 1, button_width - 2, button_height - 2)
+    pygame.draw.rect(screen, (0, 0, 0), border_rect)
+
+    # Posiciona o texto centralizado dentro do retângulo
+    text_x = x + 10 + (button_width - 20 - surface.get_width()) // 2
+    text_y = y + 10 + (button_height - 20 - surface.get_height()) // 2
+    screen.blit(surface, (text_x, text_y))
+
+
+# Função para verificar se o botão de regras foi clicado
+def check_back_button(screen):
+    mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
+    surface = Jogar.render("OK", True, (255, 255, 255))
+    x = (screen.get_width() - surface.get_width()) // 2
+    y = (screen.get_height() - surface.get_height()) // 2 + 250
+    # Retângulo do botão de voltar
+    back_button_rect = pygame.Rect(
+        x, y, surface.get_width(), surface.get_height())
+
+    # Verifica se o mouse está sobre o botão
+    if back_button_rect.collidepoint(mouse_pos):
+        # Retorna True apenas no primeiro evento de clique
+        if pygame.mouse.get_pressed()[0]:
+            return True
+
+    return False
+
+
+def exibir_regras(screen):
+    pygame.display.update()
+    screen.fill((0, 0, 0))  # Preenche a tela com preto
+
+    # Define as configurações de fonte
+    fonte_titulo = pygame.font.SysFont(None, 40)
+    fonte_texto = pygame.font.SysFont(None, 30)
+
+    # Define as regras
+    titulo_surface = fonte_titulo.render(
+        "Regras do Jogo", True, (255, 255, 255))
+    regra1_surface = fonte_texto.render(
+        "Regra 1: Descrição da regra 1", True, (255, 255, 255))
+    regra2_surface = fonte_texto.render(
+        "Regra 2: Descrição da regra 2", True, (255, 255, 255))
+    regra3_surface = fonte_texto.render(
+        "Regra 3: Descrição da regra 3", True, (255, 255, 255))
+
+    # Posiciona as superfícies de texto na tela
+    titulo_rect = titulo_surface.get_rect(center=(screen.get_width() // 2, 50))
+    regra1_rect = regra1_surface.get_rect(topleft=(50, 100))
+    regra2_rect = regra2_surface.get_rect(topleft=(50, 150))
+    regra3_rect = regra3_surface.get_rect(topleft=(50, 200))
+
+    # Desenha as superfícies de texto na tela
+    screen.blit(titulo_surface, titulo_rect)
+    screen.blit(regra1_surface, regra1_rect)
+    screen.blit(regra2_surface, regra2_rect)
+    screen.blit(regra3_surface, regra3_rect)
+    pygame.display.update()
 
 
 class Galo:
@@ -756,25 +885,48 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
-
+    background = MenuFundo
     screen.blit(MenuFundo, (0, 0))
 
     pygame.display.update()
 
     game_started = False  # Variável para controlar se o jogo foi iniciado
+    show_rules = False  # Variável para controlar se as regras devem ser exibidas
+    menu_inicial = True
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
-            if not game_started and event.type == pygame.MOUSEBUTTONDOWN:
-                if check_play_button(screen):
-                    game_started = True
 
-        if not game_started:
+            if menu_inicial:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if check_play_button(screen):
+                        game_started = True
+                        menu_inicial = False
+                    elif check_rules_button(screen):
+                        show_rules = True
+                        menu_inicial = False
+                        background = screen.copy()  # Armazena o fundo atual
+
+            elif show_rules:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if check_back_button(screen):
+                        show_rules = False
+                        menu_inicial = True
+
+        if menu_inicial:
+            if background is not None:
+                screen.blit(background, (0, 0))  # Restaura o fundo anterior
+            else:
+                screen.fill((0, 0, 0))  # Preenche a tela com preto
             draw_play_button(screen)
-        else:
+            draw_rules_button(screen)
+        elif show_rules:
+            exibir_regras(screen)
+            draw_back_button(screen)
+        elif game_started:
             game = Game()
             game.player = game.select_galo()
             game.entradajogador = game.animacaoentradajogador()
@@ -782,6 +934,7 @@ def main():
             game.entradaoponente = game.animacaoentradaoponente()
 
             # Loop principal do jogo
+
             while True:
                 # Limpa a tela
                 screen.fill((0, 0, 0))

@@ -110,7 +110,7 @@ def check_play_button(screen):
 
 def draw_rules_button(screen):
     mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
-    surface = Jogar.render("Regras", True, (255, 255, 255))
+    surface = Jogar.render("Instruções", True, (255, 255, 255))
     x = (screen.get_width() - surface.get_width()) // 2
     y = (screen.get_height() - surface.get_height()) // 2 + 250
     button_width = surface.get_width() + 20
@@ -138,11 +138,11 @@ def draw_rules_button(screen):
     screen.blit(surface, (text_x, text_y))
 
 
-# Função para verificar se o botão de regras foi clicado
+# Função para verificar se o botão de instruções foi clicado
 def check_rules_button(screen):
     mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
     # Corrigido para (255, 255, 255)
-    surface = Jogar.render("Regras", True, (255, 255, 255))
+    surface = Jogar.render("Instruções", True, (255, 255, 255))
     x = (screen.get_width() - surface.get_width()) // 2
     y = (screen.get_height() - surface.get_height()) // 2 + 250
     # Retângulo do botão de jogar
@@ -187,7 +187,7 @@ def draw_back_button(screen):
     screen.blit(surface, (text_x, text_y))
 
 
-# Função para verificar se o botão de regras foi clicado
+# Função para verificar se o botão de OK foi clicado
 def check_back_button(screen):
     mouse_pos = pygame.mouse.get_pos()  # Obtém a posição do mouse
     surface = Jogar.render("OK", True, (255, 255, 255))
@@ -216,13 +216,13 @@ def exibir_regras(screen):
 
     # Define as regras
     titulo_surface = fonte_titulo.render(
-        "Regras do Jogo", True, (255, 255, 255))
+        "Instruções", True, (255, 255, 255))
     regra1_surface = fonte_texto.render(
-        "Regra 1: Descrição da regra 1", True, (255, 255, 255))
+        "1: O jogo é baseado em turnos.", True, (255, 255, 255))
     regra2_surface = fonte_texto.render(
-        "Regra 2: Descrição da regra 2", True, (255, 255, 255))
+        "2: Ganha quem zerar a vida do oponente", True, (255, 255, 255))
     regra3_surface = fonte_texto.render(
-        "Regra 3: Descrição da regra 3", True, (255, 255, 255))
+        "3: Existem vantagens e desvantagens de tipos e terrenos", True, (255, 255, 255))
 
     # Posiciona as superfícies de texto na tela
     titulo_rect = titulo_surface.get_rect(center=(screen.get_width() // 2, 50))
@@ -235,6 +235,41 @@ def exibir_regras(screen):
     screen.blit(regra1_surface, regra1_rect)
     screen.blit(regra2_surface, regra2_rect)
     screen.blit(regra3_surface, regra3_rect)
+
+    # Define as configurações da tabela
+    pos_x = 50
+    pos_y = 300
+    cell_width = 150
+    cell_height = 50
+    num_rows = 4
+    num_columns = 4
+
+    # Dados da tabela
+    table_data = [
+        ["TIPO", "Arma", "Calça", "Tênis"],
+        ["Arma", "1x", "0.9x", "1.15x"],
+        ["Calça", "1.15x", "1x", "0.9x"],
+        ["Tênis", "0.9x", "1.15x", "1x"]
+    ]
+
+    # Desenha as células e linhas da tabela
+    for row in range(num_rows):
+        for col in range(num_columns):
+            # Calcula as coordenadas da célula atual
+            cell_x = pos_x + col * cell_width
+            cell_y = pos_y + row * cell_height
+
+            # Desenha o retângulo da célula
+            pygame.draw.rect(screen, (255, 255, 255),
+                             (cell_x, cell_y, cell_width, cell_height), 1)
+
+            # Renderiza o texto na célula
+            text = fonte_texto.render(
+                table_data[row][col], True, (255, 255, 255))
+            text_rect = text.get_rect(
+                center=(cell_x + cell_width // 2, cell_y + cell_height // 2))
+            screen.blit(text, text_rect)
+
     pygame.display.update()
 
 

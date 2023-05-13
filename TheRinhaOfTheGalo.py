@@ -223,33 +223,45 @@ def exibir_regras(screen):
         "2: Ganha quem zerar a vida do oponente", True, (255, 255, 255))
     regra3_surface = fonte_texto.render(
         "3: Existem vantagens e desvantagens de tipos e terrenos", True, (255, 255, 255))
+    regra4_surface = fonte_texto.render(
+        "4: [Ataque Especial] Utiliza vantagens (Usável 2 vezes)", True, (255, 255, 255))
+    regra5_surface = fonte_texto.render(
+        "5: [Aumentar ataque] aumenta seu ataque base em 0.5x (Usável 2 vezes)", True, (255, 255, 255))
+    regra6_surface = fonte_texto.render(
+        "6: Terrenos são escolhidos aleatóriamente no inicio do jogo", True, (255, 255, 255))
 
     # Posiciona as superfícies de texto na tela
     titulo_rect = titulo_surface.get_rect(center=(screen.get_width() // 2, 50))
     regra1_rect = regra1_surface.get_rect(topleft=(50, 100))
     regra2_rect = regra2_surface.get_rect(topleft=(50, 150))
     regra3_rect = regra3_surface.get_rect(topleft=(50, 200))
+    regra4_rect = regra4_surface.get_rect(topleft=(50, 390))
+    regra5_rect = regra5_surface.get_rect(topleft=(50, 440))
+    regra6_rect = regra6_surface.get_rect(topleft=(50, 490))
 
     # Desenha as superfícies de texto na tela
     screen.blit(titulo_surface, titulo_rect)
     screen.blit(regra1_surface, regra1_rect)
     screen.blit(regra2_surface, regra2_rect)
     screen.blit(regra3_surface, regra3_rect)
+    screen.blit(regra4_surface, regra4_rect)
+    screen.blit(regra5_surface, regra5_rect)
+    screen.blit(regra6_surface, regra6_rect)
 
     # Define as configurações da tabela
     pos_x = 50
-    pos_y = 300
-    cell_width = 150
-    cell_height = 50
+    pos_y = 250
+    cell_width = 100
+    cell_height = 30
     num_rows = 4
-    num_columns = 4
+    num_columns = 7
 
     # Dados da tabela
     table_data = [
-        ["TIPO", "Arma", "Calça", "Tênis"],
-        ["Arma", "1x", "0.9x", "1.15x"],
-        ["Calça", "1.15x", "1x", "0.9x"],
-        ["Tênis", "0.9x", "1.15x", "1x"]
+        ["TIPO", "Arma", "Calça", "Tênis", "Favela", "Loja", "Quadra"],
+        ["Arma", "1x", "0.9x", "1.15x", "1.2x", "0.9x", "0.9x"],
+        ["Calça", "1.15x", "1x", "0.9x", "0.9x", "1.2x", "0.9x"],
+        ["Tênis", "0.9x", "1.15x", "1x", "0.9x", "0.9x", "1.2x"]
     ]
 
     # Desenha as células e linhas da tabela

@@ -760,7 +760,6 @@ def main():
     screen.blit(MenuFundo, (0, 0))
 
     pygame.display.update()
-    pygame.time.wait(1000)
 
     game_started = False  # Variável para controlar se o jogo foi iniciado
 

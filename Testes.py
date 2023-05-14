@@ -32,7 +32,10 @@ pygame.init()
 width, height = 800, 800
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Rinha de Galo")
-background = pygame.image.load(f"Imagens/PlanoDeFundoALT.png")
+
+FundoNormal = pygame.image.load(f"Imagens/PlanoDeFundo.png")
+background = pygame.transform.scale(FundoNormal, (800, 600))
+
 MenuPrincipal = pygame.image.load(f"Imagens/RinhaOfTheGalo.png")
 MenuFundo = pygame.transform.scale(MenuPrincipal, (800, 600))
 
@@ -471,12 +474,17 @@ class Game:
             # exibe as imagens dos galos disponíveis
 
             galo1 = Galo("Galo de Arma", "Arma", 100, 20)
+            pygame.draw.rect(screen, (255, 255, 255, 128), (50, 100, 160, 160))
             galo1_rect = draw_galo(screen, galo1, 50, 100, 160)
 
             galo2 = Galo("Galo de Calca", "Calca", 100, 20)
+            pygame.draw.rect(screen, (255, 255, 255, 128),
+                             (300, 100, 160, 160))
             galo2_rect = draw_galo(screen, galo2, 300, 100, 160)
 
             galo3 = Galo("Galo de Tenis", "Tenis", 100, 20)
+            pygame.draw.rect(screen, (255, 255, 255, 128),
+                             (550, 100, 160, 160))
             galo3_rect = draw_galo(screen, galo3, 550, 100, 160)
 
             # verifica se o jogador clicou em algum dos galos
@@ -496,18 +504,33 @@ class Game:
 
             # Define as cores para o retângulo externo do botão quando o mouse está sobre ele
             highlight_color = (255, 255, 0)  # Amarelo
-            default_color = (255, 255, 255)  # Branco
+
+            # Define as coordenadas e dimensões da caixa de texto
+            x_caixa = 50  # Posição x da caixa
+            y_caixa = 270  # Posição y da caixa
+            largura_caixa = 700  # Largura da caixa
+            altura_caixa = 300  # Altura da caixa
+
+            # Cria uma superfície com a cor preta e transparência de 50%
+            fundo_superficie = pygame.Surface((largura_caixa, altura_caixa))
+            fundo_superficie.fill((0, 0, 0))
+            fundo_superficie.set_alpha(128)  # Define a transparência (0-255)
+
+            # Desenha o fundo transparente na tela
+            screen.blit(fundo_superficie, (x_caixa, y_caixa))
 
             if galo1_rect.collidepoint(mouse_pos):
                 draw_custom_rect(screen, 50, 100, 160, 160,
                                  highlight_color, (0, 0, 0))
                 galo1_rect = draw_galo(screen, galo1, 50, 100, 160)
                 draw_text(screen, galo1.name, 50, 270)
+                pygame.draw.rect(
+                    screen, (255, 255, 255), (x_caixa, y_caixa, largura_caixa, altura_caixa), 2)
                 draw_text(screen, f"Vantagem contra: {galo3.name}", 200, 320)
                 draw_text(
                     screen, f"Modificadores de Terreno: (Alteram ataque base)", xterreno, 350)
                 draw_bom(screen, f"Favela (1.15X)", 160, ymodificadores)
-                draw_neutro(screen, f"Quadra (1.0X)", 340, ymodificadores)
+                draw_ruim(screen, f"Quadra (0.9X)", 340, ymodificadores)
                 draw_ruim(screen, f"Loja (0.9X)", 540, ymodificadores)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo1
@@ -518,11 +541,13 @@ class Game:
                                  highlight_color, (0, 0, 0))
                 galo2_rect = draw_galo(screen, galo2, 300, 100, 160)
                 draw_text(screen, galo2.name, 300, 270)
+                pygame.draw.rect(
+                    screen, (255, 255, 255), (x_caixa, y_caixa, largura_caixa, altura_caixa), 2)
                 draw_text(screen, f"Vantagem contra: {galo1.name}", 200, 320)
                 draw_text(
                     screen, f"Modificadores de Terreno: (Alteram ataque base)", xterreno, 350)
                 draw_bom(screen, f"Loja (1.15X)", 160, ymodificadores)
-                draw_neutro(screen, f"Favela (1.0X)", 340, ymodificadores)
+                draw_ruim(screen, f"Favela (0.9X)", 340, ymodificadores)
                 draw_ruim(screen, f"Quadra (0.9X)", 540, ymodificadores)
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo2
@@ -533,12 +558,15 @@ class Game:
                                  highlight_color, (0, 0, 0))
                 galo3_rect = draw_galo(screen, galo3, 550, 100, 160)
                 draw_text(screen, galo3.name, 550, 270)
+                pygame.draw.rect(
+                    screen, (255, 255, 255), (x_caixa, y_caixa, largura_caixa, altura_caixa), 2)
                 draw_text(screen, f"Vantagem contra: {galo2.name}", 200, 320)
                 draw_text(
                     screen, f"Modificadores de Terreno: (Alteram ataque base)", xterreno, 350)
                 draw_bom(screen, f"Quadra (1.15X)", 160, ymodificadores)
-                draw_neutro(screen, f"Loja (1.0X)", 340, ymodificadores)
+                draw_ruim(screen, f"Loja (0.9X)", 340, ymodificadores)
                 draw_ruim(screen, f"Favela (0.9X)", 540, ymodificadores)
+
                 if pygame.mouse.get_pressed()[0]:
                     selected_galo = galo3
                     pygame.time.delay(1500)  # adiciona um delay de 500 ms

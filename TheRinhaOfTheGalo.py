@@ -508,7 +508,7 @@ class Game:
             # Define as coordenadas e dimensões da caixa de texto
             x_caixa = 50  # Posição x da caixa
             y_caixa = 270  # Posição y da caixa
-            largura_caixa = 700  # Largura da caixa
+            largura_caixa = 660  # Largura da caixa
             altura_caixa = 300  # Altura da caixa
 
             # Cria uma superfície com a cor preta e transparência de 50%
@@ -523,7 +523,7 @@ class Game:
                 draw_custom_rect(screen, 50, 100, 160, 160,
                                  highlight_color, (0, 0, 0))
                 galo1_rect = draw_galo(screen, galo1, 50, 100, 160)
-                draw_text(screen, galo1.name, 50, 270)
+                draw_text(screen, galo1.name, 300, 270)
                 pygame.draw.rect(
                     screen, (255, 255, 255), (x_caixa, y_caixa, largura_caixa, altura_caixa), 2)
                 draw_text(screen, f"Vantagem contra: {galo3.name}", 200, 320)
@@ -557,7 +557,7 @@ class Game:
                 draw_custom_rect(screen, 550, 100, 160, 160,
                                  highlight_color, (0, 0, 0))
                 galo3_rect = draw_galo(screen, galo3, 550, 100, 160)
-                draw_text(screen, galo3.name, 550, 270)
+                draw_text(screen, galo3.name, 300, 270)
                 pygame.draw.rect(
                     screen, (255, 255, 255), (x_caixa, y_caixa, largura_caixa, altura_caixa), 2)
                 draw_text(screen, f"Vantagem contra: {galo2.name}", 200, 320)

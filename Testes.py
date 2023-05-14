@@ -308,7 +308,7 @@ class Galo:
             self.attacks = [
                 {"name": "Bicada", "power": 5},
                 {"name": "Tiro", "power": 10},
-                {"name": "Ataque Especial", "power": 10},
+                {"name": "Ataque Especial", "power": 11},
                 {"name": "Aumentar Ataque", "power": 0}
             ]
             # Ataques galo de calca
@@ -316,7 +316,7 @@ class Galo:
             self.attacks = [
                 {"name": "Bicada", "power": 5},
                 {"name": "Calçada", "power": 10},
-                {"name": "Ataque Especial", "power": 10},
+                {"name": "Ataque Especial", "power": 11},
                 {"name": "Aumentar Ataque", "power": 0}
             ]
             # Ataques galo de tenis
@@ -324,7 +324,7 @@ class Galo:
             self.attacks = [
                 {"name": "Bicada", "power": 5},
                 {"name": "Chute", "power": 10},
-                {"name": "Ataque Especial", "power": 10},
+                {"name": "Ataque Especial", "power": 11},
                 {"name": "Aumentar Ataque", "power": 0}
             ]
 
@@ -398,14 +398,14 @@ def draw_galooponnent(screen, galo, x, y, size):
 
 def draw_health_bars(screen, player_galo, opponent_galo):
     # Barra de vida do jogador
-    draw_grande(screen, str(player_galo.hp), 100, 590)
+    draw_grande(screen, str(player_galo.hp), 100, 570)
     pygame.draw.rect(screen, (255, 0, 0), (50, 550, 200, 20))
     health_percentage = player_galo.hp / 100
     pygame.draw.rect(screen, (0, 255, 0),
                      (50, 550, int(200 * health_percentage), 20))
 
     # Barra de vida do oponente
-    draw_grande(screen, str(opponent_galo.hp), 570, 590)
+    draw_grande(screen, str(opponent_galo.hp), 570, 570)
     pygame.draw.rect(screen, (255, 0, 0), (490, 550, 200, 20))
     health_percentage = opponent_galo.hp / 100
     pygame.draw.rect(screen, (0, 255, 0), (490, 550,
@@ -673,7 +673,7 @@ class Game:
 
             # exibe os ataques disponíveis
             for i, attack in enumerate(self.player.galo.attacks):
-                text = f"{i + 1}. {attack['name']}"
+                text = f"{i + 1}. {attack['name']}-[{attack['power']}]"
                 draw_grande(screen, text, 50, 100 + i * 50)
 
                 # verifica se o jogador clicou em algum dos ataques
@@ -865,8 +865,6 @@ class Game:
                         damage = int(
                             attack['power'] * attack_modifier * terreno_modifier * base_de_ataqueOponente)
 
-                        print(attack['name'])
-                        print(damage)
                         if damage > max_damage:
                             best_attack = attack
                             max_damage = damage

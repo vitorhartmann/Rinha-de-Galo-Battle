@@ -529,7 +529,7 @@ class Game:
                 draw_text(screen, f"Vantagem contra: {galo3.name}", 200, 320)
                 draw_text(
                     screen, f"Modificadores de Terreno: (Alteram ataque base)", xterreno, 350)
-                draw_bom(screen, f"Favela (1.15X)", 160, ymodificadores)
+                draw_bom(screen, f"Favela (1.2X)", 160, ymodificadores)
                 draw_ruim(screen, f"Quadra (0.9X)", 340, ymodificadores)
                 draw_ruim(screen, f"Loja (0.9X)", 540, ymodificadores)
                 if pygame.mouse.get_pressed()[0]:
@@ -546,7 +546,7 @@ class Game:
                 draw_text(screen, f"Vantagem contra: {galo1.name}", 200, 320)
                 draw_text(
                     screen, f"Modificadores de Terreno: (Alteram ataque base)", xterreno, 350)
-                draw_bom(screen, f"Loja (1.15X)", 160, ymodificadores)
+                draw_bom(screen, f"Loja (1.2X)", 160, ymodificadores)
                 draw_ruim(screen, f"Favela (0.9X)", 340, ymodificadores)
                 draw_ruim(screen, f"Quadra (0.9X)", 540, ymodificadores)
                 if pygame.mouse.get_pressed()[0]:
@@ -563,7 +563,7 @@ class Game:
                 draw_text(screen, f"Vantagem contra: {galo2.name}", 200, 320)
                 draw_text(
                     screen, f"Modificadores de Terreno: (Alteram ataque base)", xterreno, 350)
-                draw_bom(screen, f"Quadra (1.15X)", 160, ymodificadores)
+                draw_bom(screen, f"Quadra (1.2X)", 160, ymodificadores)
                 draw_ruim(screen, f"Loja (0.9X)", 340, ymodificadores)
                 draw_ruim(screen, f"Favela (0.9X)", 540, ymodificadores)
 
